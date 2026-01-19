@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Calculate user streak
-        run: bash calculateStreak.sh juancolchete ${{ secrets.PAT_GITHUB_TOKEN }}
+        run: bash calculateStreak.sh juancolchete ${{ secrets.GITHUB_TOKEN }}
