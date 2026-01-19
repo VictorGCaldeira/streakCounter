@@ -1,4 +1,4 @@
-name: CI
+name: Calculate user streak
 on:
   workflow_dispatch:
 jobs:
