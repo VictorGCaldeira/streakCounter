@@ -16,6 +16,6 @@ EVENTS=$(curl --location 'https://api.github.com/graphql' \
 --data '{
     "query": "query { user(login: \"juancolchete\") { name createdAt contributionsCollection(from: \"'$ACCOUNT_CREATED_AT_YEAR'-01-01T00:00:00Z\") { startedAt contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } } } } }"
 }')
-echo $EVENTS | jq '.data.user.contributionsCollection.contributionCalendar.weeks[].contributionDays[] | sort[-1:][]' > "$USERNAMEContributions.json"
+echo $EVENTS | jq '.data.user.contributionsCollection.contributionCalendar.weeks[].contributionDays[] | sort[-1:]' > "$USERNAMEContributions.json"
 echo $USERNAME started at $ACCOUNT_CREATED_AT streak 9000
 cat "$USERNAMEContributions.json"
