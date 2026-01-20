@@ -13,6 +13,7 @@ YEARS_TO_RUN=$((TODAY_YEAR - ACCOUNT_CREATED_AT_YEAR))
 echo "acccvre"
 echo "$YEARS_TO_RUN"
 RUN_YEAR=$ACCOUNT_CREATED_AT_YEAR
+touch "$USERNAMEContributions.json"
 echo "[]" > "$USERNAMEContributions.json"
 for i in $(seq 0 $YEARS_TO_RUN)
 do
