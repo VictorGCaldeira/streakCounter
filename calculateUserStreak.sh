@@ -5,6 +5,8 @@ CONTRIBUTION_COUNT=0
 TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
 CONTRIBUTION_DAYS_COUNT=$(cat "contributions/${USERNAME}.json" | jq -r '[.[] | select(.date < "'$TODAY'")] | length')
 MAX_STREAK=0
+INDEX=0
+MAX_STREAK_DATE=""
 while read -r count; 
 do 
   if [[ $count -gt 0 ]]; then
@@ -12,10 +14,12 @@ do
     CONTRIBUTION_COUNT=$(( CONTRIBUTION_COUNT + count ))
     if [[ $STREAK_COUNT -gt $MAX_STREAK ]]; then
       MAX_STREAK=$STREAK_COUNT
+      MAX_STREAK_DATE=$(cat "contributions/${USERNAME}.json" | jq -r '.['$(( $INDEX - $MAX_STREAK))'].date')
     fi
   else
     STREAK_COUNT=0
   fi
+  INDEX=$(( $INDEX + 1 ))
 done < <(jq -r '.[] | select(.date < "'$TODAY'") | .contributionCount' "contributions/${USERNAME}.json")
 echo contr $CONTRIBUTION_DAYS_COUNT
 AVG_CONTRIBUTION=$((CONTRIBUTION_COUNT / $CONTRIBUTION_DAYS_COUNT ))
@@ -28,6 +32,7 @@ cat >"streakData/${USERNAME}.json" <<EOL
   "streakCount": "$STREAK_COUNT",
   "contributionCount": "$CONTRIBUTION_COUNT",
   "avgContribution": "$AVG_CONTRIBUTION",
-  "maxStreak": "$MAX_STREAK"
+  "maxStreak": "$MAX_STREAK",
+  "maxStreakDate": "$MAX_STREAK_DATE",
 }
 EOL
