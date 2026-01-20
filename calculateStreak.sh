@@ -13,6 +13,7 @@ YEARS_TO_RUN=$((TODAY_YEAR - ACCOUNT_CREATED_AT_YEAR))
 echo "acccvre"
 echo "$YEARS_TO_RUN"
 RUN_YEAR=$ACCOUNT_CREATED_AT_YEAR
+echo "[]" > "$USERNAMEContributions.json"
 for i in $(seq 0 $YEARS_TO_RUN)
 do
     EVENTS=$(curl --location 'https://api.github.com/graphql' \
@@ -23,6 +24,8 @@ do
     }')
     echo $EVENTS | jq '[.data.user.contributionsCollection.contributionCalendar.weeks[].contributionDays[]] | .[:-1]' > "$USERNAMEContributions.json"
     echo $USERNAME started at $ACCOUNT_CREATED_AT streak 9000
-    cat "$USERNAMEContributions.json"
     RUN_YEAR=$((ACCOUNT_CREATED_AT_YEAR + 1))
+    
+    jq -n --argjson old "$(cat ${USERNAME}Contributions.json)" --argjson new "$EVENTS" '$old + $new' > "temp.json" && mv "temp.json" "${USERNAME}Contributions.json"
 done
+cat "$USERNAMEContributions.json"
