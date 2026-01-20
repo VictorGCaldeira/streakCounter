@@ -30,5 +30,4 @@ cat >"streakData/${USERNAME}.json" <<EOL
   "avgContribution": "$AVG_CONTRIBUTION"
   "maxStreak": "$MAX_STREAK"
 }
-... 
 EOL
