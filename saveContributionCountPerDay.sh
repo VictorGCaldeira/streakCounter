@@ -11,7 +11,9 @@ ACCOUNT_CREATED_AT=$(echo $EVENTS | jq -r '.data.user.createdAt')
 ACCOUNT_CREATED_AT_YEAR=${ACCOUNT_CREATED_AT:0:4}
 RUN_YEAR=$ACCOUNT_CREATED_AT_YEAR
 mkdir -p contributions
+mkdir -p data
 echo "[]" > "contributions/${USERNAME}.json"
+echo $EVENTS > "data/${USERNAME}.json"
 
 for i in $(seq $ACCOUNT_CREATED_AT_YEAR $TODAY_YEAR)
 do
