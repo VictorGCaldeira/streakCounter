@@ -27,7 +27,7 @@ cat >"streakData/${USERNAME}.json" <<EOL
   "username": "$USERNAME",
   "streakCount": "$STREAK_COUNT",
   "contributionCount": "$CONTRIBUTION_COUNT",
-  "avgContribution": "$AVG_CONTRIBUTION"
+  "avgContribution": "$AVG_CONTRIBUTION",
   "maxStreak": "$MAX_STREAK"
 }
 EOL
