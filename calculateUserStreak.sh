@@ -5,11 +5,10 @@ cat "contributions/${USERNAME}.json" | jq '.[] | [select(.date < "'$TODAY'")] | 
 do 
   if [[ $count -gt 0 ]]; then
     STREAK_COUNT=$(( STREAK_COUNT + 1 ))
-    echo $STREAK_COUNT
   else
-    echo here
     STREAK_COUNT=0
   fi
+  echo $USERNAME streak is $STREAK_COUNT
 done
 
-echo $USERNAME streak is $STREAK_COUNT
+
