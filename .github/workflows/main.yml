@@ -12,9 +12,13 @@ jobs:
             sudo apt update && sudo apt install imagemagick
       - name: Calculate user streak
         run: |
-            bash generateUserBadge.sh juancolchete
-            bash saveContributionCountPerDay.sh juancolchete "${{ secrets.GITHUB_TOKEN }}"
-            bash calculateUserStreak.sh juancolchete
+            while read -r user; 
+            do 
+              bash generateUserBadge.sh $user
+              bash saveContributionCountPerDay.sh $user "${{ secrets.GITHUB_TOKEN }}"
+              bash calculateUserStreak.sh $user
+            done < <(jq -r '.[]' "config/run.json")
+            
       - name: Upload to git
         id: uploadGit
         run: |
