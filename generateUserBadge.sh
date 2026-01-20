@@ -27,7 +27,7 @@ OUTPUT="badges/${USERNAME}_badge.png"
 mkdir -p badges
 
 # 4. Generate Badge
-magick -size 650x250 xc:"$BG_COLOR" \
+convert -size 650x250 xc:"$BG_COLOR" \
     -fill "$TEXT_COLOR" -font "Sans-Serif" \
     \
     # --- Column 1: Total ---
