@@ -27,6 +27,6 @@ do
     echo $USERNAME started at $ACCOUNT_CREATED_AT streak 9000 $RUN_YEAR
     RUN_YEAR=$((RUN_YEAR + 1))
     
-    jq -n --argjson old "$(cat ${USERNAME}Contributions.json)" --argjson new "$NEW_DAYS" '$old + $new' > "temp.json" && mv "temp.json" "${USERNAME}Contributions.json"
+    jq -n --slurpfile old "${USERNAME}Contributions.json" --argjson new "$NEW_DAYS" '($old | add) + $new' > "temp.json" && mv "temp.json" "${USERNAME}Contributions.json"
 done
 cat "${USERNAME}Contributions.json"
