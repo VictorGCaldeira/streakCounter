@@ -10,3 +10,15 @@ jobs:
       - name: Calculate user streak
         run: |
             bash calculateStreak.sh juancolchete "${{ secrets.GITHUB_TOKEN }}"
+      - name: Upload to git
+        id: uploadGit
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name "juancolchete"
+            git config --global user.email "juancolchete@gmail.com"
+            git add . 
+            git commit -m "upload: ${{github.event.head_commit.message}}"
+            git push
+          else
+            echo "no changes to push"
+          fi
