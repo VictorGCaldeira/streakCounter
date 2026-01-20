@@ -10,7 +10,7 @@ fi
 
 # 1. Extract and Format the Account Creation Date
 # Extracts "2018-04-14T..." and converts to "Apr 14, 2018"
-RAW_CREATED_AT=$(jq -r '.data.user.createdAt' "$USER_FILE")
+RAW_CREATED_AT=$(jq -r '.user.createdAt' "$USER_FILE")
 START_DATE=$(date -d "$RAW_CREATED_AT" +"%b %d, %Y")
 
 # 2. Extract Streak Data
