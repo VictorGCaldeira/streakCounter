@@ -17,7 +17,7 @@ jobs:
               bash saveContributionCountPerDay.sh $user "${{ secrets.GITHUB_TOKEN }}"
               bash calculateUserStreak.sh $user
               bash generateUserBadge.sh $user
-            done < <(jq -r '.' "config/run.json")
+            done < <(jq -r '.users' "config/run.json")
             
       - name: Upload to git
         id: uploadGit
