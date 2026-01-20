@@ -11,7 +11,9 @@ fi
 # 1. Extract and Format the Account Creation Date
 # Extracts "2018-04-14T..." and converts to "Apr 14, 2018"
 RAW_CREATED_AT=$(jq -r '.user.createdAt' "$USER_FILE")
+RAW_MAX_STREAK_DATE=$(jq -r '.maxStreakDate' "$STREAK_FILE")
 START_DATE=$(date -d "$RAW_CREATED_AT" +"%b %d, %Y")
+MAX_STREAK_DATE=$(date -d "$RAW_MAX_STREAK_DATE" +"%b %d, %Y")
 
 # 2. Extract Streak Data
 STREAK=$(jq -r '.streakCount' "$STREAK_FILE")
@@ -42,7 +44,7 @@ convert -size 650x250 xc:"$BG_COLOR" \
     -fill "$ORANGE" -stroke none -draw "path 'M 325,30 Q 315,50 325,65 Q 335,50 325,30 Z'" \
     -fill "$TEXT_COLOR" -pointsize 45 -draw "text 0,-15 '$STREAK'" \
     -fill "$ORANGE" -pointsize 18 -draw "text 0,55 'Current Streak'" \
-    -fill "$SUB_TEXT" -pointsize 14 -draw "text 0,85 '$TODAY - Present'" \
+    -fill "$SUB_TEXT" -pointsize 14 -draw "text 0,85 '$MAX_STREAK_DATE - Present'" \
     -gravity East -fill "$TEXT_COLOR" -pointsize 45 -draw "text 80,-20 '$MAX_STREAK'" \
     -pointsize 18 -draw "text 65,25 'Longest Streak'" \
     -fill "$SUB_TEXT" -pointsize 14 -draw "text 50,60 'All-time High'" \
