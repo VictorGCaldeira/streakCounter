@@ -8,6 +8,8 @@ EVENTS=$(curl --location 'https://api.github.com/graphql' \
 }')
 ACCOUNT_CREATED_AT=$(echo $EVENTS | jq -r '.data.user.createdAt')
 ACCOUNT_CREATED_AT_YEAR=$(${ACCOUNT_CREATED_AT:0:10})
+echo "acccvre"
+echo $ACCOUNT_CREATED_AT_YEAR
 EVENTS=$(curl --location 'https://api.github.com/graphql' \
 --header 'Content-Type: application/json' \
 --header "Authorization: Bearer $GITHUB_PAT" \
