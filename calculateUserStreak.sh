@@ -3,7 +3,7 @@ STREAK_COUNT=0
 CONTRIBUTION_COUNT=0
 
 TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
-CONTRIBUTION_DAYS_COUNT=$(cat "contributions/${USERNAME}.json" | jq -r '.[] | map(select(.date < "'$TODAY'")) | length')
+CONTRIBUTION_DAYS_COUNT=$(cat "contributions/${USERNAME}.json" | jq -r '[.[] | select(.date < "'$TODAY'")] | length')
 while read -r count; 
 do 
   if [[ $count -gt 0 ]]; then
