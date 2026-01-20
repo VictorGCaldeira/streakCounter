@@ -1,21 +1,25 @@
-#!/bin/bash
-
 USERNAME=$1
-FILE_PATH="streakData/${USERNAME}.json"
+# We need both files: the raw user data and the calculated streak data
+USER_FILE="data/${USERNAME}.json"
+STREAK_FILE="streakData/${USERNAME}.json"
 
-if [ ! -f "$FILE_PATH" ]; then
-    echo "Error: File $FILE_PATH not found."
+if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
+    echo "Error: Required JSON files for $USERNAME not found."
     exit 1
 fi
 
-# Extract Data
-STREAK=$(jq -r '.streakCount' "$FILE_PATH")
-TOTAL_CONTRIB=$(jq -r '.contributionCount' "$FILE_PATH")
-MAX_STREAK=$(jq -r '.maxStreak' "$FILE_PATH")
-START_DATE="Jan 10, 2017" 
+# 1. Extract and Format the Account Creation Date
+# Extracts "2018-04-14T..." and converts to "Apr 14, 2018"
+RAW_CREATED_AT=$(jq -r '.data.user.createdAt' "$USER_FILE")
+START_DATE=$(date -d "$RAW_CREATED_AT" +"%b %d, %Y")
+
+# 2. Extract Streak Data
+STREAK=$(jq -r '.streakCount' "$STREAK_FILE")
+TOTAL_CONTRIB=$(jq -r '.contributionCount' "$STREAK_FILE")
+MAX_STREAK=$(jq -r '.maxStreak' "$STREAK_FILE")
 TODAY=$(date +"%b %d")
 
-# Styling
+# 3. Styling
 BG_COLOR="#0d1117"
 TEXT_COLOR="#ffffff"
 ORANGE="#ff9a00"
@@ -25,7 +29,7 @@ OUTPUT="badges/${USERNAME}_badge.png"
 
 mkdir -p badges
 
-# Generate Badge (No comments allowed inside this multiline command)
+# 4. Generate Badge
 convert -size 650x250 xc:"$BG_COLOR" \
     -fill "$TEXT_COLOR" -font "DejaVu-Sans" \
     -gravity West -pointsize 45 -draw "text 60,-20 '$TOTAL_CONTRIB'" \
@@ -44,4 +48,4 @@ convert -size 650x250 xc:"$BG_COLOR" \
     -fill "$SUB_TEXT" -pointsize 14 -draw "text 50,60 'All-time High'" \
     "$OUTPUT"
 
-echo "Success: Badge generated at $OUTPUT"
+echo "Success: Badge generated for $USERNAME (Started: $START_DATE)"
