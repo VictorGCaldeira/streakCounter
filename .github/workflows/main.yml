@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Calculate user streak
         run: |
-            chroot /__w/streakCounter/streakCounter
+            cp /__w/streakCounter/streakCounter .
             bash saveContributionCountPerDay.sh $user "${{ secrets.GITHUB_TOKEN }}"
             bash calculateUserStreak.sh $user
             bash generateUserBadge.sh $user
