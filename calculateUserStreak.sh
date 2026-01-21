@@ -1,7 +1,7 @@
 USERNAME=$1
 STREAK_COUNT=0
 CONTRIBUTION_COUNT=0
-
+AVG_CONTRIBUTION=0
 TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
 CONTRIBUTION_DAYS_COUNT=$(cat "contributions/${USERNAME}.json" | jq -r '[.[] | select(.date < "'$TODAY'")] | length')
 MAX_STREAK=0
@@ -26,8 +26,9 @@ do
   fi
   INDEX=$(( $INDEX + 1 ))
 done < <(jq -r '.[] | select(.date < "'$TODAY'") | .contributionCount' "contributions/${USERNAME}.json")
-echo contr $CONTRIBUTION_DAYS_COUNT
-AVG_CONTRIBUTION=$((CONTRIBUTION_COUNT / $CONTRIBUTION_DAYS_COUNT ))
+if [[ $CONTRIBUTION_DAYS_COUNT -gt 0 ]]; then
+  AVG_CONTRIBUTION=$((CONTRIBUTION_COUNT / $CONTRIBUTION_DAYS_COUNT ))
+fi
 echo $USERNAME streak is $STREAK_COUNT total contributions $CONTRIBUTION_COUNT avg contributions per day $AVG_CONTRIBUTION best streak is $MAX_STREAK
 
 mkdir -p streakData
