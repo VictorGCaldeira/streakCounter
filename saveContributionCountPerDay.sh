@@ -1,5 +1,4 @@
 #!/bin/bash
-cd /__w/streakCounter/streakCounter
 USERNAME=$1
 GITHUB_PAT=$2
 EVENTS=$(curl -Ss --location 'https://api.github.com/graphql' \
