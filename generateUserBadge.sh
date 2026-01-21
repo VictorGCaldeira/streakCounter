@@ -8,7 +8,7 @@ USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
-echo "Generating badge with text moved 10px up for: $USERNAME"
+echo "Generating badge with text moved 5px higher for: $USERNAME"
 
 # 2. Check Data
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
@@ -36,10 +36,10 @@ ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
 
-# --- COORDINATES (Moved UP 10px) ---
-VAL_Y=75    # Big Number (Moved from 85 -> 75)
-LBL_Y=130   # Label (Moved from 140 -> 130)
-SUB_Y=155   # Date (Moved from 165 -> 155)
+# --- COORDINATES (Moved UP 5px) ---
+VAL_Y=70    # Big Number (Moved from 75 -> 70)
+LBL_Y=125   # Label (Moved from 130 -> 125)
+SUB_Y=150   # Date (Moved from 155 -> 150)
 
 MY_FONT=$(convert -list font | grep -oE "Arial|Liberation-Sans|DejaVu-Sans" | head -n 1)
 [ -z "$MY_FONT" ] && MY_FONT="fixed"
@@ -103,4 +103,4 @@ CMD=(
 # 6. Execute
 "${CMD[@]}"
 
-echo "Success: Badge generated with text moved 10px higher."
+echo "Success: Badge generated with text moved 5px higher."
