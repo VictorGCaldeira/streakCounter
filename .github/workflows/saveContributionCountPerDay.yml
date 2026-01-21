@@ -12,14 +12,13 @@ jobs:
         run: |
             while read -r user; 
             do 
-              bash saveContributionCountPerDay.sh $user
+              bash saveContributionCountPerDay.sh $user "${{ secrets.GITHUB_TOKEN }}"
             done < <(jq -r '.users[]' "config/run.json")
             
       - name: Upload to git
         id: uploadGit
         shell: bash
         run: |
-          git config --global --add safe.directory /__w/streakCounter/streakCounter
           LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
           if [[ `git status --porcelain` ]]; then
             git config --global user.name "juancolchete"
