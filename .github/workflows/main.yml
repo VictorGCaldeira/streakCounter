@@ -13,6 +13,7 @@ jobs:
       - name: Calculate user streak
         run: |
             cd /__w/streakCounter/streakCounter
+            ls
             bash saveContributionCountPerDay.sh $user "${{ secrets.GITHUB_TOKEN }}"
             bash calculateUserStreak.sh $user
             bash generateUserBadge.sh $user
