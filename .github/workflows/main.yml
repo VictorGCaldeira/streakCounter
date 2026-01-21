@@ -7,6 +7,7 @@ jobs:
   build:
     environment: main
     runs-on: ubuntu-latest
+    container: dpokidov/imagemagick:latest
     steps:
       - uses: actions/checkout@v4
       # 1. PRE-FIX: Take OWNERSHIP of the folder so 'tar' can restore timestamps
