@@ -18,7 +18,7 @@ echo $USER_DATA > "data/${USERNAME}.json"
 
 for i in $(seq $ACCOUNT_CREATED_AT_YEAR $TODAY_YEAR)
 do
-    RESPONSE=$(curl -S --location 'https://api.github.com/graphql' \
+    RESPONSE=$(curl -Ss --location 'https://api.github.com/graphql' \
     --header 'Content-Type: application/json' \
     --header "Authorization: Bearer $GITHUB_PAT" \
     --data '{
