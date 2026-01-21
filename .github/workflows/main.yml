@@ -24,6 +24,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
+          sudo rm -f /var/cache/apt/archives/lock
+          sudo chmod -R 777 /var/cache/apt/archives
       - name: Calculate user streak
         run: |
             while read -r user; 
