@@ -8,7 +8,7 @@ USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
-echo "Generating badge with polished flame icon for: $USERNAME"
+echo "Generating badge with fantastic flame icon for: $USERNAME"
 
 # 2. Check Data
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
@@ -73,27 +73,27 @@ CMD=(
     -fill none -stroke "$ORANGE" -strokewidth 5
     -draw "arc 330,30 520,220 0,360"
     
-    # --- POLISHED FLAME ICON ---
-    # We use a specific geometry:
-    # Base Center: 425,43
-    # Left Tip: 415,20
-    # Right Tip: 435,5 (Taller)
+    # --- FANTASTIC FLAME ICON ---
+    # Geometry:
+    # Base Center: 425,42
+    # Left Lick: Hooks sharply to 414,12
+    # Right Apex: Shoots up to 434,0 (High & Sharp)
     
-    # 1. Mask (Background Color) - Cuts the circle line behind the flame
-    # Note: We use a stroke of 8 here to ensure the cut is wide enough
+    # 1. Mask (Background Color) - Cuts the circle line (Stroke 8 for wide cut)
     -fill "$BG_COLOR" -stroke "$BG_COLOR" -strokewidth 8
-    -draw "path 'M 425,43 C 405,43 408,25 415,20 Q 425,30 435,5 C 445,20 445,43 425,43 Z'"
+    -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
     # 2. Outer Flame (Orange)
-    # C = Curve (Control1, Control2, End)
-    # Q = Quad Curve (Control, End)
+    # Starts bottom, curves wide left, snaps to sharp left tip.
+    # Dips in middle, then curves up to a very sharp top right tip (Y=0).
+    # Curves back down smoothly to right base.
     -fill "$ORANGE" -stroke none
-    -draw "path 'M 425,43 C 405,43 408,25 415,20 Q 425,30 435,5 C 445,20 445,43 425,43 Z'"
+    -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
     # 3. Inner Flame (Hollow Effect)
-    # Scaled down version to create the cutout
+    # Carefully scaled to follow the outer contours but keep the "hollow" look consistent.
     -fill "$BG_COLOR" -stroke none
-    -draw "path 'M 425,38 C 415,38 415,28 419,25 Q 425,30 431,15 C 435,22 438,38 425,38 Z'"
+    -draw "path 'M 425,36 C 414,36 412,24 418,18 Q 424,26 430,8 C 436,18 436,36 425,36 Z'"
     
     # --- Column 2: Center Text ---
     -fill "$TEXT_COLOR" -pointsize 52 -annotate +0+$VAL_Y "$STREAK"
@@ -111,4 +111,4 @@ CMD=(
 # 6. Execute
 "${CMD[@]}"
 
-echo "Success: Badge generated with polished flame icon."
+echo "Success: Badge generated with fantastic flame icon."
