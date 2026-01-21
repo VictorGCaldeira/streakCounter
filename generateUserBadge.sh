@@ -8,7 +8,7 @@ USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
-echo "Generating badge with precise reference flame for: $USERNAME"
+echo "Generating badge with improved organic flame for: $USERNAME"
 
 # 2. Check Data
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
@@ -37,8 +37,7 @@ SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
 
 # --- COORDINATES ---
-# Circle Diameter: 190px. Center Y: 125.
-# Top of Circle: Y=30.
+# Circle Diameter: 190px (330,30 to 520,220). Center Y: 125.
 VAL_Y=95    # Big Number
 LBL_Y=135   # Label
 SUB_Y=160   # Date
@@ -67,47 +66,4 @@ CMD=(
 
     # --- Column 1: Total Contributions ---
     -pointsize 52 -annotate -284+$VAL_Y "$TOTAL_CONTRIB"
-    -pointsize 18 -annotate -284+$LBL_Y "Total Contributions"
-    -fill "$SUB_TEXT" -pointsize 14 -annotate -284+$SUB_Y "$START_DATE - Present"
-
-    # --- Column 2: The Ring ---
-    # Circle (190px diameter)
-    -fill none -stroke "$ORANGE" -strokewidth 5
-    -draw "arc 330,30 520,220 0,360"
-    
-    # --- FLAME ICON REDESIGN ---
-    # Based on the image_c51585.png style.
-    # Uses Cubic Bezier (C) for organic curves.
-    # Base Center: 425,42 (Sits nicely on top of circle Y=30 + width)
-    
-    # 1. Mask (Background Color) - Cuts the circle line
-    -fill "$BG_COLOR" -stroke "$BG_COLOR" -strokewidth 5
-    -draw "path 'M 425,42 C 405,42 405,22 415,18 C 420,25 422,25 432,10 C 445,20 445,42 425,42 Z'"
-    
-    # 2. Outer Flame (Orange)
-    # Start Bottom(425,42) -> Curve Left/Up to Left Tip(415,18) -> Dip/Curve Up to Right Tip(432,10) -> Curve Right/Down back to Base
-    -fill "$ORANGE" -stroke none
-    -draw "path 'M 425,42 C 405,42 405,22 415,18 C 420,25 422,25 432,10 C 445,20 445,42 425,42 Z'"
-    
-    # 3. Inner Flame (Background Color - Hollow Effect)
-    # Scaled down version of the outer path
-    -fill "$BG_COLOR" -stroke none
-    -draw "path 'M 425,37 C 412,37 412,25 418,22 C 422,26 424,26 430,16 C 438,22 438,37 425,37 Z'"
-    
-    # --- Column 2: Center Text ---
-    -fill "$TEXT_COLOR" -pointsize 52 -annotate +0+$VAL_Y "$STREAK"
-    -fill "$ORANGE" -pointsize 18 -annotate +0+$LBL_Y "Current Streak"
-    -fill "$SUB_TEXT" -pointsize 14 -annotate +0+$SUB_Y "$CURRENT_STREAK_DISPLAY - Present"
-
-    # --- Column 3: Longest Streak ---
-    -fill "$TEXT_COLOR" -pointsize 52 -annotate +284+$VAL_Y "$MAX_STREAK"
-    -pointsize 18 -annotate +284+$LBL_Y "Longest Streak"
-    -fill "$SUB_TEXT" -pointsize 14 -annotate +284+$SUB_Y "All-time High"
-
-    "$OUTPUT"
-)
-
-# 6. Execute
-"${CMD[@]}"
-
-echo "Success: Badge generated with corrected organic flame shape."
+    -pointsize 18 -annotate -28
