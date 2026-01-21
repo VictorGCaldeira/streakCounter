@@ -8,7 +8,7 @@ USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
-echo "Generating badge with corrected flame for: $USERNAME"
+echo "Generating badge with precise reference flame for: $USERNAME"
 
 # 2. Check Data
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
@@ -36,8 +36,9 @@ ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
 
-# --- COORDINATES (Optimized for 190px Circle) ---
-# Circle: Top Y=30, Bottom Y=220. Center Y=125.
+# --- COORDINATES ---
+# Circle Diameter: 190px. Center Y: 125.
+# Top of Circle: Y=30.
 VAL_Y=95    # Big Number
 LBL_Y=135   # Label
 SUB_Y=160   # Date
@@ -70,25 +71,28 @@ CMD=(
     -fill "$SUB_TEXT" -pointsize 14 -annotate -284+$SUB_Y "$START_DATE - Present"
 
     # --- Column 2: The Ring ---
-    # Circle Diameter = 190px.
+    # Circle (190px diameter)
     -fill none -stroke "$ORANGE" -strokewidth 5
     -draw "arc 330,30 520,220 0,360"
     
-    # --- FIXED FLAME ICON ---
-    # We use 'Q' (Quadratic Bezier) for a predictable fire shape.
-    # Base: 425,38. Left Tip: 418,15. Right Tip (Tall): 435,5.
+    # --- FLAME ICON REDESIGN ---
+    # Based on the image_c51585.png style.
+    # Uses Cubic Bezier (C) for organic curves.
+    # Base Center: 425,42 (Sits nicely on top of circle Y=30 + width)
     
-    # 1. Mask (Background Color) - Hides the circle line
+    # 1. Mask (Background Color) - Cuts the circle line
     -fill "$BG_COLOR" -stroke "$BG_COLOR" -strokewidth 5
-    -draw "path 'M 425,38 Q 405,38 408,20 Q 408,10 418,15 Q 425,20 428,10 Q 432,0 442,20 Q 445,38 425,38 Z'"
+    -draw "path 'M 425,42 C 405,42 405,22 415,18 C 420,25 422,25 432,10 C 445,20 445,42 425,42 Z'"
     
     # 2. Outer Flame (Orange)
+    # Start Bottom(425,42) -> Curve Left/Up to Left Tip(415,18) -> Dip/Curve Up to Right Tip(432,10) -> Curve Right/Down back to Base
     -fill "$ORANGE" -stroke none
-    -draw "path 'M 425,38 Q 405,38 408,20 Q 408,10 418,15 Q 425,20 428,10 Q 432,0 442,20 Q 445,38 425,38 Z'"
+    -draw "path 'M 425,42 C 405,42 405,22 415,18 C 420,25 422,25 432,10 C 445,20 445,42 425,42 Z'"
     
-    # 3. Inner Flame (Background Color) - Creates the "Hollow" effect
+    # 3. Inner Flame (Background Color - Hollow Effect)
+    # Scaled down version of the outer path
     -fill "$BG_COLOR" -stroke none
-    -draw "path 'M 425,33 Q 414,33 414,24 Q 414,18 418,20 Q 422,22 425,18 Q 428,12 434,22 Q 436,33 425,33 Z'"
+    -draw "path 'M 425,37 C 412,37 412,25 418,22 C 422,26 424,26 430,16 C 438,22 438,37 425,37 Z'"
     
     # --- Column 2: Center Text ---
     -fill "$TEXT_COLOR" -pointsize 52 -annotate +0+$VAL_Y "$STREAK"
@@ -106,4 +110,4 @@ CMD=(
 # 6. Execute
 "${CMD[@]}"
 
-echo "Success: Badge generated with fixed hollow flame."
+echo "Success: Badge generated with corrected organic flame shape."
