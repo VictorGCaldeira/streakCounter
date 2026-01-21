@@ -10,31 +10,6 @@ jobs:
     container: dpokidov/imagemagick:latest
     steps:
       - uses: actions/checkout@v4
-      # 1. PRE-FIX: Take OWNERSHIP of the folder so 'tar' can restore timestamps
-      - name: Fix Cache Ownership
-        run: |
-          sudo mkdir -p /var/cache/apt/archives/partial
-          # Change owner from root to the runner user
-          sudo chown -R $(whoami) /var/cache/apt/archives
-    
-      # 2. RESTORE: Now actions/cache can fully restore the directory metadata
-      - name: Cache Apt Archives
-        id: cache-apt
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-imagemagick
-    
-      # 3. INSTALL: Run the install
-      - name: Install ImageMagick
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y imagemagick
-          
-          # 4. POST-FIX: Clean lock and fix ownership AGAIN for the 'Save' phase
-          # (apt running as sudo will have created root-owned files/locks again)
-          sudo rm -f /var/cache/apt/archives/lock
-          sudo chown -R $(whoami) /var/cache/apt/archives
       - name: Calculate user streak
         run: |
             while read -r user; 
