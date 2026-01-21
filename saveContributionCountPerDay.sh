@@ -7,6 +7,7 @@ EVENTS=$(curl -Ss --location 'https://api.github.com/graphql' \
 --data '{
     "query": "query { user(login: \"'$USERNAME'\") { name createdAt  } }"
 }')
+echo $EVENTS
 TODAY_YEAR=$(date -u +"%Y")
 ACCOUNT_CREATED_AT=$(echo $EVENTS | jq -r '.data.user.createdAt')
 ACCOUNT_CREATED_AT_YEAR=${ACCOUNT_CREATED_AT:0:4}
