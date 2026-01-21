@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # 1. Safety & Settings
 set -e
 export LC_NUMERIC="C"
@@ -7,7 +8,7 @@ USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
-echo "Generating badge with tighter bottom spacing for: $USERNAME"
+echo "Generating badge with improved flame shape for: $USERNAME"
 
 # 2. Check Data
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
@@ -35,10 +36,10 @@ ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
 
-# --- SPACING ADJUSTMENT ---
+# --- SPACING (Kept tight from previous step) ---
 VAL_Y=75    # Big Number (Top)
 LBL_Y=125   # Label (Middle)
-SUB_Y=145   # Date (Moved UP to 145 to be closer to the label)
+SUB_Y=145   # Date (Close to Middle)
 
 MY_FONT=$(convert -list font | grep -oE "Arial|Liberation-Sans|DejaVu-Sans" | head -n 1)
 [ -z "$MY_FONT" ] && MY_FONT="fixed"
@@ -67,16 +68,23 @@ CMD=(
     -pointsize 18 -annotate -284+$LBL_Y "Total Contributions"
     -fill "$SUB_TEXT" -pointsize 14 -annotate -284+$SUB_Y "$START_DATE - Present"
 
-    # --- Column 2: The Ring & Flame ---
+    # --- Column 2: The Ring & Improved Flame ---
     -fill none -stroke "$ORANGE" -strokewidth 5
     -draw "arc 320,20 530,230 0,360"
     
-    # Flame
-    -fill "$BG_COLOR" -stroke "$ORANGE" -strokewidth 5
-    -draw "path 'M 425,20 Q 415,5 425,0 Q 435,5 425,20 Z'"
+    # --- FLAME IMPROVEMENT ---
+    # We use 'C' (Cubic Bezier) to make a rounded bottom and sharp tip.
+    # Start at bottom (425,24).
+    # Curve Left-Out (410,24) -> Left-Up (412,10) -> Tip (425,0).
+    # Curve Right-Up (438,10) -> Right-Out (440,24) -> End (425,24).
     
+    # 1. Draw "Mask" (Background color) to hide the circle line behind the flame
+    -fill "$BG_COLOR" -stroke "$ORANGE" -strokewidth 5
+    -draw "path 'M 425,24 C 410,24 412,10 425,0 C 438,10 440,24 425,24 Z'"
+    
+    # 2. Draw Actual Flame (Orange Fill)
     -fill "$ORANGE" -stroke none
-    -draw "path 'M 425,20 Q 415,5 425,0 Q 435,5 425,20 Z'"
+    -draw "path 'M 425,24 C 410,24 412,10 425,0 C 438,10 440,24 425,24 Z'"
     
     # --- Column 2: Center Text ---
     -fill "$TEXT_COLOR" -pointsize 52 -annotate +0+$VAL_Y "$STREAK"
@@ -94,4 +102,4 @@ CMD=(
 # 6. Execute
 "${CMD[@]}"
 
-echo "Success: Badge generated. Bottom text is now closer to the middle."
+echo "Success: Badge generated with improved flame icon."
