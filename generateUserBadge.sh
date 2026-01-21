@@ -8,7 +8,7 @@ USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
-echo "Generating badge with fixed text alignment (Flame unchanged) for: $USERNAME"
+echo "Generating badge with text moved 10px up for: $USERNAME"
 
 # 2. Check Data
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
@@ -36,12 +36,10 @@ ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
 
-# --- COORDINATES (Fixed Alignment) ---
-# Previous: 95, 135, 160 (Caused overlap because 135-95=40 is < 52 font size)
-# New: 85, 140, 165 (Gap increased to 55px for the big number)
-VAL_Y=85    # Big Number (Moved UP)
-LBL_Y=140   # Label (Moved DOWN slightly)
-SUB_Y=165   # Date (Moved DOWN slightly)
+# --- COORDINATES (Moved UP 10px) ---
+VAL_Y=75    # Big Number (Moved from 85 -> 75)
+LBL_Y=130   # Label (Moved from 140 -> 130)
+SUB_Y=155   # Date (Moved from 165 -> 155)
 
 MY_FONT=$(convert -list font | grep -oE "Arial|Liberation-Sans|DejaVu-Sans" | head -n 1)
 [ -z "$MY_FONT" ] && MY_FONT="fixed"
@@ -75,9 +73,8 @@ CMD=(
     -draw "arc 330,30 520,220 0,360"
     
     # --- FLAME ICON (UNCHANGED) ---
-    # Preserved state: Hollow shifted right 2px (X=422), Rotated 13 deg.
     
-    # 1. Mask (Background Color) - Cuts the circle line
+    # 1. Mask (Background Color)
     -fill "$BG_COLOR" -stroke "$BG_COLOR" -strokewidth 8
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
@@ -85,7 +82,8 @@ CMD=(
     -fill "$ORANGE" -stroke none
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
-    # 3. Inner Flame (Hollow Effect) - Exact same geometry/rotation as before
+    # 3. Inner Flame (Hollow Effect)
+    # Preserved: Shifted 2px Right (X=422), Rotated 13 degrees
     -fill "$BG_COLOR" -stroke none
     -draw "translate 422,28 rotate 13 translate -422,-28 path 'M 422,37 C 414,37 414,25 417,20 Q 423,28 429,13 C 434,22 435,37 422,37 Z'"
     
@@ -105,4 +103,4 @@ CMD=(
 # 6. Execute
 "${CMD[@]}"
 
-echo "Success: Badge generated with corrected text spacing."
+echo "Success: Badge generated with text moved 10px higher."
