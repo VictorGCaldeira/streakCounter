@@ -8,11 +8,19 @@ USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
-echo "Generating badge with text moved another 5px higher (Total: 65, 120, 145) for: $USERNAME"
+# Validate input
+if [ -z "$USERNAME" ]; then
+    echo "Error: No username provided."
+    echo "Usage: $0 <username>"
+    exit 1
+fi
 
-# 2. Check Data
+echo "Generating larger badge with username tag for: $USERNAME"
+
+# 2. Check Data Files
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
-    echo "Error: Files not found."
+    echo "Error: Data files not found for user '$USERNAME'."
+    echo "Please ensure 'data/${USERNAME}.json' and 'streakData/${USERNAME}.json' exist."
     exit 1
 fi
 
@@ -29,23 +37,34 @@ MAX_STREAK=$(jq -r '.maxStreak' "$STREAK_FILE")
 
 # 4. Styling & Coordinates
 WIDTH=850
-HEIGHT=250
+# INCREASED HEIGHT from 250 to 310 to fit the new tag area
+HEIGHT=310
+
+# Colors
 BG_COLOR="#0d1117"
+TAG_BG_COLOR="#161b22"  # Slightly lighter for the footer tag
 TEXT_COLOR="#ffffff"
+TAG_TEXT_COLOR="#c9d1d9" # Off-white for tag text
 ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
 
-# --- COORDINATES (Moved UP another 5px) ---
-VAL_Y=65    # Big Number (Moved from 70 -> 65)
-LBL_Y=120   # Label (Moved from 125 -> 120)
-SUB_Y=145   # Date (Moved from 150 -> 145)
+# Main Content Coordinates (Preserved from previous step)
+VAL_Y=65    # Big Number
+LBL_Y=120   # Label
+SUB_Y=145   # Date
 
+# Tag Coordinates
+TAG_Y_START=250
+TAG_TEXT_Y=288
+
+# Font Selection
 MY_FONT=$(convert -list font | grep -oE "Arial|Liberation-Sans|DejaVu-Sans" | head -n 1)
 [ -z "$MY_FONT" ] && MY_FONT="fixed"
 
-OUTPUT="badges/${USERNAME}_badge.png"
-mkdir -p badges
+OUTPUT_DIR="badges"
+OUTPUT="${OUTPUT_DIR}/${USERNAME}_badge.png"
+mkdir -p "$OUTPUT_DIR"
 
 # 5. Build Command
 CMD=(
@@ -53,14 +72,21 @@ CMD=(
     -size "${WIDTH}x${HEIGHT}" 
     xc:"$BG_COLOR"
     -font "$MY_FONT"
-    -fill "$TEXT_COLOR"
     
-    # --- Vertical Dividers ---
+    # --- 1. Draw Tag Background (Bottom Area) ---
+    -fill "$TAG_BG_COLOR" -stroke none
+    -draw "rectangle 0,$TAG_Y_START $WIDTH,$HEIGHT"
+
+    # --- 2. Draw Tag Text ---
+    -fill "$TAG_TEXT_COLOR" -pointsize 20 -gravity North
+    -annotate +0+$TAG_TEXT_Y "@$USERNAME"
+
+    # --- 3. Draw Main Content Dividers ---
     -fill none -stroke "$DIVIDER" -strokewidth 2
     -draw "line 283,50 283,200"
     -draw "line 566,50 566,200"
 
-    # --- Text Settings ---
+    # --- 4. Text Settings for Main Content ---
     -stroke none -fill "$TEXT_COLOR" -gravity North
 
     # --- Column 1: Total Contributions ---
@@ -73,17 +99,15 @@ CMD=(
     -draw "arc 330,30 520,220 0,360"
     
     # --- FLAME ICON (UNCHANGED) ---
-    
-    # 1. Mask (Background Color)
+    # 1. Mask
     -fill "$BG_COLOR" -stroke "$BG_COLOR" -strokewidth 8
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
-    # 2. Outer Flame (Orange)
+    # 2. Outer Flame
     -fill "$ORANGE" -stroke none
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
     # 3. Inner Flame (Hollow Effect)
-    # Preserved: Shifted 2px Right (X=422), Rotated 13 degrees
     -fill "$BG_COLOR" -stroke none
     -draw "translate 422,28 rotate 13 translate -422,-28 path 'M 422,37 C 414,37 414,25 417,20 Q 423,28 429,13 C 434,22 435,37 422,37 Z'"
     
@@ -103,4 +127,4 @@ CMD=(
 # 6. Execute
 "${CMD[@]}"
 
-echo "Success: Badge generated with text moved 5px higher again."
+echo "Success: Badge generated with increased size and username tag."
