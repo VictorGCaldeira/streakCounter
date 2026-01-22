@@ -26,7 +26,8 @@ fi
 if [ ! -f "$USER_CONFIG_FILE" ]; then
 cat >"${USER_CONFIG_FILE}" <<EOL
 {
-  "tagBackgroundColor": "#161b22"
+  "tagBackgroundColor": "#161b22",
+  "tagTextColor": "#8b949e"
 }
 EOL
 fi
@@ -50,7 +51,7 @@ HEIGHT=310  # Height includes the footer tag area
 BG_COLOR="#0d1117"
 TAG_BG_COLOR=$(jq -r '.tagBackgroundColor' "$USER_CONFIG_FILE")
 TEXT_COLOR="#ffffff"
-TAG_TEXT_COLOR="#8b949e" # GitHub grey for subtle tag
+TAG_TEXT_COLOR=$(jq -r '.tagTextColor' "$USER_CONFIG_FILE")
 ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
