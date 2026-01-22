@@ -9,14 +9,18 @@ MAX_STREAK=0
 INDEX=0
 MAX_STREAK_DATE=null
 CURRENT_STREAK_DATE=null
-while read -r count; 
+while read -r contribution; 
 do 
-  if [[ $count -gt 0 ]]; then
+  echo "contribution"
+  echo $contribution
+  echo "contribution"
+  CONTRIBUTION_COUNT=$(echo $contribution | jq ".contributionCount")
+  if [[ $CONTRIBUTION_COUNT -gt 0 ]]; then
     STREAK_COUNT=$(( STREAK_COUNT + 1 ))
     if [[ $STREAK_COUNT -eq 1 ]]; then
       CURRENT_STREAK_DATE=$(cat "contributions/${USERNAME}.json" | jq -r '.['$INDEX'].date')
     fi
-    CONTRIBUTION_COUNT=$(( CONTRIBUTION_COUNT + count ))
+    CONTRIBUTION_COUNT=$(( CONTRIBUTION_COUNT + CONTRIBUTION_COUNT ))
     if [[ $STREAK_COUNT -gt $MAX_STREAK ]]; then
       MAX_STREAK=$STREAK_COUNT
       MAX_STREAK_DATE=$(cat "contributions/${USERNAME}.json" | jq -r '.['$(( $INDEX - $MAX_STREAK))'].date')
@@ -26,7 +30,7 @@ do
     STREAK_COUNT=0
   fi
   INDEX=$(( $INDEX + 1 ))
-done < <(jq -r '.[] | select(.date < "'$TODAY'") | .contributionCount' "contributions/${USERNAME}.json")
+done < <(jq -r '.[] | select(.date < "'$TODAY'")' "contributions/${USERNAME}.json")
 if [[ $CONTRIBUTION_DAYS_COUNT -gt 0 ]]; then
   AVG_CONTRIBUTION=$((CONTRIBUTION_COUNT / $CONTRIBUTION_DAYS_COUNT ))
 fi
