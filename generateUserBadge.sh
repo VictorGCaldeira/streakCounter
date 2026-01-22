@@ -82,7 +82,7 @@ CMD=(
 
 if [[ "$TAG_GEN" == "true" ]]; then
     HEIGHT=310
-    TAG_=50
+    TAG_HEIGHT=50
     TAG_START_Y=$((HEIGHT - TAG_HEIGHT))
     TAG_IMAGE_START_Y=$((HEIGHT))
     CMD+=(
