@@ -87,6 +87,7 @@ CMD=(
 if [[ "$TAG_GEN" == "true" ]]; then
     HEIGHT=310
     CMD+=(
+        -draw 'image SrcOver 100,100 225,225 images/tagBG.jpg'
         -fill "$TAG_BG_COLOR" -stroke none
         -draw "rectangle 0,$TAG_START_Y $WIDTH,$HEIGHT"
         -fill "$TAG_TEXT_COLOR" 
