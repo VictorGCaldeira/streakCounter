@@ -130,7 +130,7 @@ CMD+=(
 
     -fill "$TOTAL_CONTRIBUTED_COLOR" -pointsize 52 -annotate -284+$VAL_Y "$TOTAL_CONTRIBUTED"
     -fill "$TOTAL_CONTRIBUTED_TEXT_COLOR" -pointsize 18 -annotate -284+$LBL_Y "Total Contributions"
-    -fill "$SUB_TEXT" -pointsize 14 -annotate -284+$SUB_Y "$START_DATE - Present"
+    -fill "#00ff00" -pointsize 14 -annotate -284+$SUB_Y "$START_DATE - Present"
 
     # Column 2: The Ring
     -fill none -stroke "$ORANGE" -strokewidth 5
