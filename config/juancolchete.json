@@ -11,7 +11,7 @@
   "streakColor": "#ffffff",
   "streakTextColor": "#ff9a00",
   "streakSubTextColor": "#8b949e",
-  "maxStreakColor": "#ffffff",
+  "maxStreakColor": "#ff0000",
   "maxStreakTextColor": "#ffffff",
   "maxStreakSubTextColor": "#8b949e"
 }
