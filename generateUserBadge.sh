@@ -70,7 +70,7 @@ LBL_Y=120   # Label
 SUB_Y=145   # Date
 
 # Footer Calculation
-TAG_HEIGHT=50
+TAG_=50
 TAG_START_Y=$((HEIGHT - TAG_HEIGHT)) # 260
 
 MY_FONT=$(convert -list font | grep -oE "Arial|Liberation-Sans|DejaVu-Sans" | head -n 1)
@@ -80,16 +80,12 @@ OUTPUT_DIR="badges"
 OUTPUT="${OUTPUT_DIR}/${USERNAME}_badge.png"
 mkdir -p "$OUTPUT_DIR"
 
-# 5. Build Command
-# Initialize the command array
 CMD=(
     convert 
-    -size "${WIDTH}x${HEIGHT}" 
-    xc:"$BG_COLOR"
-    -font "$MY_FONT"
 )
 
 if [[ "$TAG_GEN" == "true" ]]; then
+    HEIGHT=250
     CMD+=(
         -fill "$TAG_BG_COLOR" -stroke none
         -draw "rectangle 0,$TAG_START_Y $WIDTH,$HEIGHT"
@@ -99,6 +95,12 @@ if [[ "$TAG_GEN" == "true" ]]; then
         -annotate +0+15 "$TAG_TEXT"
     )
 fi
+
+CMD+=(
+    -size "${WIDTH}x${HEIGHT}" 
+    xc:"$BG_COLOR"
+    -font "$MY_FONT"
+)
 
 # --- 3. Main Content (Append to array) ---
 CMD+=(
