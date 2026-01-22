@@ -168,7 +168,7 @@ CMD+=(
 
     # Column 3: Longest Streak
     -fill "$MAX_STREAK_COLOR" -pointsize 52 -annotate +284+$VAL_Y "$MAX_STREAK"
-    -fill "#ffffff" -pointsize 18 -annotate +284+$LBL_Y "Longest Streak"
+    -fill "$MAX_STREAK_TEXT_COLOR" -pointsize 18 -annotate +284+$LBL_Y "Longest Streak"
     -fill "$SUB_TEXT" -pointsize 14 -annotate +284+$SUB_Y "All-time High"
 
     "$OUTPUT"
