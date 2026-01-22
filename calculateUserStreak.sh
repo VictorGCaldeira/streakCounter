@@ -50,7 +50,11 @@ do
   CONTRIBUTION_PER_YEAR+="{"
   CONTRIBUTION_PER_YEAR+='"year":"'$i'",'
   CONTRIBUTION_PER_YEAR+='"totalContributed":"'${YEARS_CONTRIBUTION[$i]}'"'
-  CONTRIBUTION_PER_YEAR+="}"
+  if [[ i -eq $TODAY_YEAR ]]; then
+    CONTRIBUTION_PER_YEAR+="}"
+  else
+    CONTRIBUTION_PER_YEAR+="},"
+  fi
 done
 mkdir -p streakData
 cat >"streakData/${USERNAME}.json" <<EOL
