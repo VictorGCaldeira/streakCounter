@@ -124,7 +124,7 @@ CMD+=(
     # Main Text Columns
     -stroke none -fill "$TEXT_COLOR"
 
-    -pointsize 52 -annotate -284+$VAL_Y "$TOTAL_CONTRIBUTED" -fill "$TOTAL_CONTRIBUTED_COLOR"
+    -fill "$TOTAL_CONTRIBUTED_COLOR" -pointsize 52 -annotate -284+$VAL_Y "$TOTAL_CONTRIBUTED"
     -pointsize 18 -annotate -284+$LBL_Y "Total Contributions"
     -fill "$SUB_TEXT" -pointsize 14 -annotate -284+$SUB_Y "$START_DATE - Present"
 
