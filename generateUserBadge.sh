@@ -28,7 +28,8 @@ cat >"${USER_CONFIG_FILE}" <<EOL
 {
   "tagBackgroundColor": "#161b22",
   "tagTextColor": "#8b949e",
-  "tagText": "$USERNAME"
+  "tagText": "$USERNAME",
+  "tagGen": true
 }
 EOL
 fi
@@ -54,6 +55,7 @@ TAG_BG_COLOR=$(jq -r '.tagBackgroundColor' "$USER_CONFIG_FILE")
 TEXT_COLOR="#ffffff"
 TAG_TEXT_COLOR=$(jq -r '.tagTextColor' "$USER_CONFIG_FILE")
 TAG_TEXT=$(jq -r '.tagText' "$USER_CONFIG_FILE")
+TAG_GEN=$(jq -r '.tagGen' "$USER_CONFIG_FILE")
 ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
@@ -85,11 +87,13 @@ CMD=(
     -fill "$TAG_BG_COLOR" -stroke none
     -draw "rectangle 0,$TAG_START_Y $WIDTH,$HEIGHT"
 
-    # --- 2. Draw Tag Text (Anchored to Bottom) ---
-    -fill "$TAG_TEXT_COLOR" 
-    -pointsize 20 
-    -gravity South
-    -annotate +0+15 "$TAG_TEXT"  # Draws text 15px from the bottom edge
+    if [[ $TAG_GEN -eq true ]]; then
+        # --- 2. Draw Tag Text (Anchored to Bottom) ---
+        -fill "$TAG_TEXT_COLOR" 
+        -pointsize 20 
+        -gravity South
+        -annotate +0+15 "$TAG_TEXT"  # Draws text 15px from the bottom edge
+    fi
 
     # --- 3. Switch back to Top Alignment for Main Content ---
     -gravity North
