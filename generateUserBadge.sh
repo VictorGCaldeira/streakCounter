@@ -88,7 +88,7 @@ if [[ "$TAG_GEN" == "true" ]]; then
     CMD+=(
         -draw "image SrcOver 0,0 $WIDTH,$HEIGHT images/tagBG.jpg"
         -fill "$TAG_BG_COLOR" -stroke none
-        -draw "rectangle 0,$TAG_IMAGE_START_Y $WIDTH,$HEIGHT"
+        -draw "rectangle 0,$TAG_IMAGE_START_Y $WIDTH,$TAG_HEIGHT"
         -fill "$TAG_TEXT_COLOR" 
         -pointsize 20 
         -gravity South
