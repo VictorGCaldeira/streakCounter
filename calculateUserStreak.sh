@@ -62,7 +62,7 @@ cat >"streakData/${USERNAME}.json" <<EOL
   "avgContribution": "$AVG_CONTRIBUTION",
   "maxStreak": "$MAX_STREAK",
   "maxStreakDate": "$MAX_STREAK_DATE",
-  "currentStreakDate": "$CURRENT_STREAK_DATE"
+  "currentStreakDate": "$CURRENT_STREAK_DATE",
   "contributionPerYear": [$CONTRIBUTION_PER_YEAR]
 }
 EOL
