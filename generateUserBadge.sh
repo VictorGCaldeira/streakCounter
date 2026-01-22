@@ -35,7 +35,7 @@ if [ ! -f "$USER_CONFIG_FILE" ]; then
   "tagGen": true,
   "tagImage": "",
   "flameColor":"#ff9a00",
-  "totalContributedColor": "ffffff"
+  "totalContributedColor": "#ffffff"
 }
 EOL
 fi
