@@ -9,12 +9,13 @@ MAX_STREAK=0
 INDEX=0
 MAX_STREAK_DATE=null
 CURRENT_STREAK_DATE=null
+declare -a YEARS_CONTRIBUTION
 while read -r contribution; 
 do 
-  echo "contribution"
-  echo $contribution
-  echo "contribution"
   CONTRIBUTION_COUNT=$(echo $contribution | jq ".contributionCount")
+  CONTRIBUTION_DATE=$(echo $contribution | jq ".date")
+  CONTRIBUTION_YEAR=${CONTRIBUTION_DATE:0:4}
+  YEARS_CONTRIBUTION[CONTRIBUTION_YEAR]=$(( YEARS_CONTRIBUTION[CONTRIBUTION_YEAR] + CONTRIBUTION_COUNT ))
   if [[ $CONTRIBUTION_COUNT -gt 0 ]]; then
     STREAK_COUNT=$(( STREAK_COUNT + 1 ))
     if [[ $STREAK_COUNT -eq 1 ]]; then
