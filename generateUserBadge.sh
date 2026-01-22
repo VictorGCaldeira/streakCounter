@@ -6,6 +6,7 @@ export LC_NUMERIC="C"
 
 USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
+USER_CONFIG_FILE="config/${USERNAME}.json"
 STREAK_FILE="streakData/${USERNAME}.json"
 
 # Validate input
@@ -21,6 +22,13 @@ echo "Generating badge with visible username tag for: $USERNAME"
 if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
     echo "Error: Data files not found for user '$USERNAME'."
     exit 1
+fi
+if [ ! -f "$USER_CONFIG_FILE" ]; then
+cat >"${USER_CONFIG_FILE}" <<EOL
+{
+  "tagBackgroundColor": "#161b22"
+}
+EOL
 fi
 
 # 3. Extract Data
@@ -40,7 +48,7 @@ HEIGHT=310  # Height includes the footer tag area
 
 # Colors
 BG_COLOR="#0d1117"
-TAG_BG_COLOR="#161b22"
+TAG_BG_COLOR=$(jq -r '.tagBackgroundColor' "$STREAK_FILE")
 TEXT_COLOR="#ffffff"
 TAG_TEXT_COLOR="#8b949e" # GitHub grey for subtle tag
 ORANGE="#ff9a00"
