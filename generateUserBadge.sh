@@ -69,10 +69,6 @@ VAL_Y=65    # Big Number
 LBL_Y=120   # Label
 SUB_Y=145   # Date
 
-# Footer Calculation
-TAG_=50
-TAG_START_Y=$((HEIGHT - TAG_HEIGHT)) # 260
-
 MY_FONT=$(convert -list font | grep -oE "Arial|Liberation-Sans|DejaVu-Sans" | head -n 1)
 [ -z "$MY_FONT" ] && MY_FONT="fixed"
 
@@ -86,6 +82,8 @@ CMD=(
 
 if [[ "$TAG_GEN" == "true" ]]; then
     HEIGHT=310
+    TAG_=50
+    TAG_START_Y=$((HEIGHT - TAG_HEIGHT))
     CMD+=(
         -draw "image SrcOver 0,$TAG_START_Y $WIDTH,$HEIGHT images/tagBG.jpg"
         -fill "$TAG_BG_COLOR" -stroke none
