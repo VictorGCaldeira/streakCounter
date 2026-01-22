@@ -47,6 +47,7 @@ do
   CONTRIBUTION_PER_YEAR+="{"
   CONTRIBUTION_PER_YEAR+='"year":"'$i'",'
   CONTRIBUTION_PER_YEAR+='"totalContributed":"'${YEARS_CONTRIBUTION[$i]}'"'
+  CONTRIBUTION_PER_YEAR+='"avg":"'${$((YEARS_CONTRIBUTION[$i] / 365))}'"'
   if [[ i -eq $TODAY_YEAR ]]; then
     CONTRIBUTION_PER_YEAR+="}"
   else
