@@ -48,8 +48,8 @@ CONTRIBUTION_PER_YEAR=""
 for i in $(seq $FIRST_CONTRIBUTION_YEAR $TODAY_YEAR)
 do
   CONTRIBUTION_PER_YEAR+="{"
-  CONTRIBUTION_PER_YEAR+='"year":"'$seq'",'
-  CONTRIBUTION_PER_YEAR+='"totalContributed":"'${YEARS_CONTRIBUTION[$seq]}'"'
+  CONTRIBUTION_PER_YEAR+='"year":"'$i'",'
+  CONTRIBUTION_PER_YEAR+='"totalContributed":"'${YEARS_CONTRIBUTION[$i]}'"'
   CONTRIBUTION_PER_YEAR+="}"
 done
 mkdir -p streakData
