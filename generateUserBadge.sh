@@ -29,6 +29,7 @@ if [ ! -f "$USER_CONFIG_FILE" ]; then
     mkdir -p config
     cat >"${USER_CONFIG_FILE}" <<EOL
 {
+  "backgroundColor": "#0d1117",
   "tagBackgroundColor": "#161b22",
   "tagTextColor": "#8b949e",
   "tagText": "@$USERNAME",
@@ -65,8 +66,7 @@ WIDTH=850
 HEIGHT=250
 
 # Colors
-BG_COLOR="#0d1117"
-# Use -r to get raw strings, ensure colors have quotes in JSON or handle them here
+BG_COLOR=$(jq -r '.backgroundColor' "$USER_CONFIG_FILE")
 TAG_BG_COLOR=$(jq -r '.tagBackgroundColor' "$USER_CONFIG_FILE")
 TEXT_COLOR="#ffffff"
 TAG_TEXT_COLOR=$(jq -r '.tagTextColor' "$USER_CONFIG_FILE")
