@@ -5,7 +5,7 @@
   "tagText": "@juancolchete",
   "tagGen": true,
   "tagImage": "",
-  "backgroundImage": "",
+  "backgroundImage": "images/tagBG.jpg",
   "flameColor":"#ff9a00",
   "ringColor":"#ff9a00",
   "totalContributedColor": "#ffffff",
