@@ -1,0 +1,18 @@
+{
+  "tagBackgroundColor": "#161b22",
+  "tagTextColor": "#8b949e",
+  "tagText": "@juancolchete",
+  "tagGen": true,
+  "tagImage": "",
+  "flameColor":"#ff9a00",
+  "ringColor":"#ff9a00",
+  "totalContributedColor": "#ffffff",
+  "totalContributedTextColor": "#ffffff",
+  "totalContributedSubTextColor": "#8b949e",
+  "streakColor": "#ffffff",
+  "streakTextColor": "#ff9a00",
+  "streakSubTextColor": "#8b949e",
+  "maxStreakColor": "#ffffff",
+  "maxStreakTextColor": "#ffffff",
+  "maxStreakSubTextColor": "#8b949e"
+}
