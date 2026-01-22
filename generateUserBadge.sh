@@ -35,6 +35,7 @@ if [ ! -f "$USER_CONFIG_FILE" ]; then
   "tagText": "@$USERNAME",
   "tagGen": true,
   "tagImage": "",
+  "backgroundImage": "",
   "flameColor":"#ff9a00",
   "ringColor":"#ff9a00",
   "totalContributedColor": "#ffffff",
@@ -73,6 +74,7 @@ TAG_TEXT_COLOR=$(jq -r '.tagTextColor' "$USER_CONFIG_FILE")
 TAG_TEXT=$(jq -r '.tagText' "$USER_CONFIG_FILE")
 TAG_GEN=$(jq -r '.tagGen' "$USER_CONFIG_FILE")
 TAG_IMAGE=$(jq -r '.tagImage' "$USER_CONFIG_FILE")
+BACKGROUND_IMAGE=$(jq -r '.backgroundImage' "$USER_CONFIG_FILE")
 FLAME_COLOR=$(jq -r '.flameColor' "$USER_CONFIG_FILE")
 RING_COLOR=$(jq -r '.ringColor' "$USER_CONFIG_FILE")
 ORANGE="#ff9a00"
@@ -122,7 +124,11 @@ if [[ "$TAG_GEN" == "true" ]]; then
         -annotate +0+15 "$TAG_TEXT"
     )
 fi
-
+if [[ ${#BACKGROUND_IMAGE} -gt 4 ]]; then
+        CMD+=(
+        -draw "image SrcOver 0,0 $WIDTH,$HEIGHT $BACKGROUND_IMAGE"
+        )
+fi
 CMD+=(
     -size "${WIDTH}x${HEIGHT}" 
     xc:"$BG_COLOR"
