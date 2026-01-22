@@ -84,10 +84,11 @@ if [[ "$TAG_GEN" == "true" ]]; then
     HEIGHT=310
     TAG_=50
     TAG_START_Y=$((HEIGHT - TAG_HEIGHT))
+    TAG_IMAGE_START_Y=$((HEIGHT))
     CMD+=(
         -draw "image SrcOver 0,$TAG_START_Y $WIDTH,$HEIGHT images/tagBG.jpg"
         -fill "$TAG_BG_COLOR" -stroke none
-        -draw "rectangle 0,$TAG_START_Y $WIDTH,$HEIGHT"
+        -draw "rectangle 0,$TAG_IMAGE_START_Y $WIDTH,$HEIGHT"
         -fill "$TAG_TEXT_COLOR" 
         -pointsize 20 
         -gravity South
