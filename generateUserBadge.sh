@@ -40,7 +40,10 @@ if [ ! -f "$USER_CONFIG_FILE" ]; then
   "totalContributedSubTextColor": "#8b949e",
   "streakColor": "#ffffff",
   "streakTextColor": "#ff9a00",
-  "streakSubTextColor": "#8b949e"
+  "streakSubTextColor": "#8b949e",
+  "maxStreakColor": "#ffffff",
+  "maxStreakTextColor": "#ffffff",
+  "maxStreakSubTextColor": "#8b949e"
 }
 EOL
 fi
@@ -79,6 +82,9 @@ TOTAL_CONTRIBUTED_SUB_TEXT_COLOR=$(jq -r '.totalContributedSubTextColor' "$USER_
 STREAK_COLOR=$(jq -r '.streakColor' "$USER_CONFIG_FILE")
 STREAK_TEXT_COLOR=$(jq -r '.streakTextColor' "$USER_CONFIG_FILE")
 STREAK_SUB_TEXT_COLOR=$(jq -r '.streakSubTextColor' "$USER_CONFIG_FILE")
+MAX_STREAK_COLOR=$(jq -r '.maxStreakColor' "$USER_CONFIG_FILE")
+MAX_STREAK_TEXT_COLOR=$(jq -r '.maxStreakTextColor' "$USER_CONFIG_FILE")
+MAX_STREAK_SUB_TEXT_COLOR=$(jq -r '.maxStreakSubTextColor' "$USER_CONFIG_FILE")
 # Content Coordinates (Top Align)
 VAL_Y=65    # Big Number
 LBL_Y=120   # Label
@@ -161,7 +167,7 @@ CMD+=(
     -fill "$STREAK_SUB_TEXT_COLOR" -pointsize 14 -annotate +0+$SUB_Y "$CURRENT_STREAK_DISPLAY - Present"
 
     # Column 3: Longest Streak
-    -fill "$TEXT_COLOR" -pointsize 52 -annotate +284+$VAL_Y "$MAX_STREAK"
+    -fill "$MAX_STREAK_COLOR" -pointsize 52 -annotate +284+$VAL_Y "$MAX_STREAK"
     -pointsize 18 -annotate +284+$LBL_Y "Longest Streak"
     -fill "$SUB_TEXT" -pointsize 14 -annotate +284+$SUB_Y "All-time High"
 
