@@ -173,3 +173,23 @@ if (option && typeof option === 'object') {
 
 window.addEventListener('resize', myChart.resize);
 EOL
+
+cat >"statistics/${USERNAME}Standalone.html" <<EOL
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>$USERNAME - Skyscraper</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="chart-container"></div>
+  <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
+  <script src="https://echarts.apache.org/en/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
+  <script>
+    $(cat "statistics/${USERNAME}Data.js") 
+    $(cat "statistics/${USERNAME}Skyscraper.js") 
+  </script>
+</body>
+</html>
+EOL
