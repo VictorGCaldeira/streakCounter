@@ -2,7 +2,7 @@
 USERNAME=$1
 DATA=$(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "streakData/${USERNAME}.json")
 
-cat >"statistics/${USERNAME}YearCommitmentStandalone.html" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}YearCommitmentStandalone.html" <<EOL
 <!DOCTYPE html>
 <html lang="en" style="height: 100%">
 <head>

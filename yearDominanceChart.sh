@@ -2,7 +2,7 @@
 USERNAME=$1
 
 
-cat >"statistics/${USERNAME}YearDominanceStandalone.html" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}YearDominanceStandalone.html" <<EOL
 <!DOCTYPE html>
 <html lang="en" style="height: 100%">
 <head>

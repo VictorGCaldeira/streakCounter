@@ -39,7 +39,7 @@ done < <(jq -c '.[] | select(.date < "'$TODAY'")' "${USERNAME}/contributions/${U
 DAY_COMMITMENT_DATA+="]"
 WEEK_NUMBER+="]"
 mkdir -p streakData
-cat >"statistics/${USERNAME}.json" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}.json" <<EOL
 {
   "maxContribution": "$MAX_CONTRIBUTION",
   "contributionDaysCount": "$CONTRIBUTION_DAYS_COUNT",
@@ -48,14 +48,14 @@ cat >"statistics/${USERNAME}.json" <<EOL
 }
 EOL
 
-cat >"statistics/${USERNAME}Data.js" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}Data.js" <<EOL
 const maxContribution=$MAX_CONTRIBUTION
 const contributionDaysCount=$CONTRIBUTION_DAYS_COUNT
 const dayCommitmentData=$DAY_COMMITMENT_DATA
 const weekNumber=$WEEK_NUMBER
 EOL
 
-cat >"statistics/${USERNAME}.html" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}.html" <<EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,13 +67,13 @@ cat >"statistics/${USERNAME}.html" <<EOL
   <div id="chart-container"></div>
   <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
   <script src="https://echarts.apache.org/en/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
-  <script src="./${USERNAME}Data.js"></script>
-  <script src="./${USERNAME}Skyscraper.js"></script>
+  <script src="${USERNAME}/statistics/${USERNAME}Data.js"></script>
+  <script src="${USERNAME}/statistics/${USERNAME}Skyscraper.js"></script>
 </body>
 </html>
 EOL
 
-cat >"statistics/${USERNAME}Skyscraper.js" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}Skyscraper.js" <<EOL
 var dom = document.getElementById('chart-container');
 var myChart = echarts.init(dom, null, {
   renderer: 'canvas',
@@ -174,7 +174,7 @@ if (option && typeof option === 'object') {
 window.addEventListener('resize', myChart.resize);
 EOL
 
-cat >"statistics/${USERNAME}Standalone.html" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}Standalone.html" <<EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,8 +187,8 @@ cat >"statistics/${USERNAME}Standalone.html" <<EOL
   <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
   <script src="https://echarts.apache.org/en/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
   <script>
-    $(cat "statistics/${USERNAME}Data.js") 
-    $(cat "statistics/${USERNAME}Skyscraper.js") 
+    $(cat "${USERNAME}/statistics/${USERNAME}Data.js") 
+    $(cat "${USERNAME}/statistics/${USERNAME}Skyscraper.js") 
   </script>
 </body>
 </html>
