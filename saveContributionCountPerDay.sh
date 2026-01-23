@@ -12,9 +12,9 @@ ACCOUNT_CREATED_AT=$(echo $EVENTS | jq -r '.data.user.createdAt')
 ACCOUNT_CREATED_AT_YEAR=${ACCOUNT_CREATED_AT:0:4}
 USER_DATA=$(echo $EVENTS | jq '.data')
 RUN_YEAR=$ACCOUNT_CREATED_AT_YEAR
-mkdir -p contributions
+mkdir -p "${USERNAME}/cntributions"
 mkdir -p data
-echo "[]" > "contributions/${USERNAME}.json"
+echo "[]" > "${USERNAME}/contributions/${USERNAME}.json"
 echo $USER_DATA > "data/${USERNAME}.json"
 if [[ $ACCOUNT_CREATED_AT_YEAR -gt 1900 ]]; then
     for i in $(seq $ACCOUNT_CREATED_AT_YEAR $TODAY_YEAR)

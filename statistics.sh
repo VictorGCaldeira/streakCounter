@@ -2,12 +2,12 @@
 USERNAME=$1
 TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
 
-CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "contributions/${USERNAME}.json")
+CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "${USERNAME}/contributions/${USERNAME}.json")
 MAX_CONTRIBUTION=0
 WEEK_DAY=0
 WEEK_COUNT=0
 GLOBAL_WEEK_COUNT=0
-FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "contributions/${USERNAME}.json")
+FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "${USERNAME}/contributions/${USERNAME}.json")
 FIRST_CONTRIBUTION_YEAR=${FIRST_CONTRIBUTION_DATE:0:4}
 CURRENT_CONTRIBUTION_YEAR=$FIRST_CONTRIBUTION_YEAR
 mkdir -p statistics
@@ -35,7 +35,7 @@ do
   fi
   WEEK_DAY=$(( $WEEK_DAY + 1 ))
   INDEX=$(( $INDEX + 1 ))
-done < <(jq -c '.[] | select(.date < "'$TODAY'")' "contributions/${USERNAME}.json")
+done < <(jq -c '.[] | select(.date < "'$TODAY'")' "${USERNAME}/contributions/${USERNAME}.json")
 DAY_COMMITMENT_DATA+="]"
 WEEK_NUMBER+="]"
 mkdir -p streakData
