@@ -162,7 +162,7 @@ CMD+=(
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
     # 2. Outer Flame
-    -fill "$FLAME_COLOR" -stroke none
+    -fill "$FLAME_COLOR" -stroke none -blur
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
     # 3. Inner Flame (Hollow Effect)
