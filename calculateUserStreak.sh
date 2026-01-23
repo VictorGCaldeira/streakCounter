@@ -29,11 +29,11 @@ do
     if [[ $STREAK_COUNT -eq 1 ]]; then
       CURRENT_STREAK_DATE=$(cat "${USERNAME}/contributions/${USERNAME}.json" | jq -r '.['$INDEX'].date')
     fi
-    CONTRIBUTION_COUNT=$(( CONTRIBUTION_COUNT + CONTRIBUTION_COUNT ))
     if [[ $STREAK_COUNT -gt $MAX_STREAK ]]; then
       MAX_STREAK=$STREAK_COUNT
       MAX_STREAK_DATE=$(cat "${USERNAME}/contributions/${USERNAME}.json" | jq -r '.['$(( $INDEX - $MAX_STREAK))'].date')
     fi
+    CONTRIBUTION_COUNT=$(( CONTRIBUTION_COUNT + CONTRIBUTION_COUNT ))
   else
     CURRENT_STREAK_DATE=$(cat "${USERNAME}/contributions/${USERNAME}.json" | jq -r '.['$INDEX'].date')
     STREAK_COUNT=0
