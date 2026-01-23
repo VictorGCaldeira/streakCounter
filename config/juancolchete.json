@@ -10,7 +10,7 @@
   "flameBlur": false,
   "flameBlurForce": "0x2",
   "ringColor":"#ff9a00",
-  "ringBlur":false,
+  "ringBlur":true,
   "totalContributedColor": "#ffffff",
   "totalContributedTextColor": "#ffffff",
   "totalContributedSubTextColor": "#8b949e",
