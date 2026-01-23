@@ -1,6 +1,6 @@
 #!/bin/bash 
 USERNAME=$1
-DATA=$(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "streakData/${USERNAME}.json")
+DATA=$(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "${USERNAME}/streakData/${USERNAME}.json")
 
 cat >"${USERNAME}/statistics/${USERNAME}YearCommitmentStandalone.html" <<EOL
 <!DOCTYPE html>

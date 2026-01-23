@@ -60,8 +60,8 @@ do
     CONTRIBUTION_PER_YEAR+="},"
   fi
 done
-mkdir -p streakData
-cat >"streakData/${USERNAME}.json" <<EOL
+mkdir -p "${USERNAME}/streakData"
+cat >"${USERNAME}/streakData/${USERNAME}.json" <<EOL
 {
   "username": "$USERNAME",
   "streakCount": "$STREAK_COUNT",

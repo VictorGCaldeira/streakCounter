@@ -7,7 +7,7 @@ export LC_NUMERIC="C"
 USERNAME=$1
 USER_FILE="data/${USERNAME}.json"
 USER_CONFIG_FILE="${USERNAME}/config/${USERNAME}.json"
-STREAK_FILE="streakData/${USERNAME}.json"
+STREAK_FILE="${USERNAME}/streakData/${USERNAME}.json"
 
 # Validate input
 if [ -z "$USERNAME" ]; then
