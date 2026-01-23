@@ -52,3 +52,21 @@ const contributionDaysCount=$CONTRIBUTION_DAYS_COUNT
 const dayCommitmentData=$DAY_COMMITMENT_DATA
 const weekNumber=$WEEK_NUMBER
 EOL
+
+cat >"statistics/${USERNAME}.html" <<EOL
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>$USERNAME - Skyscraper</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="chart-container"></div>
+  <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
+  <script src="https://echarts.apache.org/en/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
+  <script src="./$USERNAME.js"></script>
+  <script src="./index.js"></script>
+</body>
+</html>
+EOL
