@@ -1,0 +1,38 @@
+name: Run all
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    environment: main
+    runs-on: ubuntu-latest
+    container: juancolchete/imagemagickgithubactions:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run all
+        shell: bash
+        run: |
+            while read -r user; 
+            do 
+              bash saveContributionCountPerDay.sh $user "${{ secrets.GITHUB_TOKEN }}"
+              bash calculateUserStreak.sh $user
+              bash generateUserBadge.sh $user
+              bash statistics.sh $user
+              bash yearCommitmentChart.sh $user
+              bash yearDominanceChart.sh $user
+            done < <(jq -r '.users[]' "config/run.json")
+            
+      - name: Upload to git
+        id: uploadGit
+        shell: bash
+        run: |
+          git config --global --add safe.directory /__w/streakCounter/streakCounter
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name "juancolchete"
+            git config --global user.email "juancolchete@gmail.com"
+            git add . 
+            git commit -m "upload: $LAST_COMMIT_MSG"
+            git push
+          else
+            echo "no changes to push"
+          fi
