@@ -6,7 +6,7 @@ WEEK_DAY=0
 WEEK_COUNT=0
 mkdir -p statistics
 DAY_COMMITMENT_DATA+="["
-WEEK_NUMBER="["
+WEEK_NUMBER+="["
 while read -r contribution; 
 do 
   CONTRIBUTION_COUNT=$(echo $contribution | jq -r ".contributionCount")
