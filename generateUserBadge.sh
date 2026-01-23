@@ -40,6 +40,7 @@ if [ ! -f "$USER_CONFIG_FILE" ]; then
   "flameBlur": false,
   "flameBlurForce": "0x2",
   "ringColor":"#ff9a00",
+  "ringBlur":false,
   "totalContributedColor": "#ffffff",
   "totalContributedTextColor": "#ffffff",
   "totalContributedSubTextColor": "#8b949e",
@@ -81,6 +82,7 @@ FLAME_COLOR=$(jq -r '.flameColor' "$USER_CONFIG_FILE")
 FLAME_BLUR=$(jq -r '.flameBlur' "$USER_CONFIG_FILE")
 FLAME_BLUR_FORCE=$(jq -r '.flameBlurForce' "$USER_CONFIG_FILE")
 RING_COLOR=$(jq -r '.ringColor' "$USER_CONFIG_FILE")
+RING_BLUR=$(jq -r '.ringBlur' "$USER_CONFIG_FILE")
 ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
@@ -158,7 +160,7 @@ CMD+=(
     )
 
     # Column 2: The Ring
-    
+    if [[ "$RING_BLUR" == "true" ]]; then
     CMD+=( "(" 
         -size "${WIDTH}x${HEIGHT}" xc:none 
         -fill none -stroke "$RING_COLOR" -strokewidth 5
@@ -166,6 +168,11 @@ CMD+=(
         -blur 0x2
     ")" 
     -composite)
+    else
+    CMD+=(
+        -fill none -stroke "$RING_COLOR" -strokewidth 5
+        -draw "arc 330,30 520,220 0,360")
+    fi
     CMD+=(
     # --- FLAME ICON ---
     # 1. Mask (Hides the ring behind the flame - STAYS ON MAIN LAYER)
