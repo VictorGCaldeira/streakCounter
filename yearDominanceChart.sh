@@ -47,7 +47,7 @@ cat >"${USERNAME}/statistics/${USERNAME}YearDominanceStandalone.html" <<EOL
       itemStyle: {
         borderRadius: 8
       },
-    data: $(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "streakData/${USERNAME}.json")
+    data: $(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "${USERNAME}/streakData/${USERNAME}.json")
     }
   ]
 };
