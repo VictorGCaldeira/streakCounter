@@ -5,12 +5,12 @@ CONTRIBUTION_COUNT=0
 AVG_CONTRIBUTION=0
 TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
 TODAY_YEAR=${TODAY:0:4}
-CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "contributions/${USERNAME}.json")
+CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "${USERNAME}/contributions/${USERNAME}.json")
 MAX_STREAK=0
 INDEX=0
 MAX_STREAK_DATE=null
 CURRENT_STREAK_DATE=null
-FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "contributions/${USERNAME}.json")
+FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "${USERNAME}/contributions/${USERNAME}.json")
 FIRST_CONTRIBUTION_YEAR=${FIRST_CONTRIBUTION_DATE:0:4}
 MAX_CONTRIBUTION=0
 
