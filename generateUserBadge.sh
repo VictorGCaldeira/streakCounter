@@ -5,9 +5,9 @@ set -e
 export LC_NUMERIC="C"
 
 USERNAME=$1
-USER_FILE="data/${USERNAME}.json"
-USER_CONFIG_FILE="config/${USERNAME}.json"
-STREAK_FILE="streakData/${USERNAME}.json"
+USER_FILE="${USERNAME}/data/${USERNAME}.json"
+USER_CONFIG_FILE="${USERNAME}/config/${USERNAME}.json"
+STREAK_FILE="${USERNAME}/streakData/${USERNAME}.json"
 
 # Validate input
 if [ -z "$USERNAME" ]; then
@@ -23,10 +23,11 @@ if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
     echo "Error: Data files not found for user '$USERNAME'."
     exit 1
 fi
-
+mkdir -p "${USERNAME}/images"
+touch "${USERNAME}/images/.keep"
 # Create Config if missing
 if [ ! -f "$USER_CONFIG_FILE" ]; then
-    mkdir -p config
+    mkdir -p "${USERNAME}/config"
     cat >"${USER_CONFIG_FILE}" <<EOL
 {
   "backgroundColor": "#0d1117",
@@ -37,7 +38,11 @@ if [ ! -f "$USER_CONFIG_FILE" ]; then
   "tagImage": "",
   "backgroundImage": "",
   "flameColor":"#ff9a00",
+  "flameBlur": false,
+  "flameBlurForce": "0x2",
   "ringColor":"#ff9a00",
+  "ringBlur":false,
+  "ringBlurForce": "0x2",
   "totalContributedColor": "#ffffff",
   "totalContributedTextColor": "#ffffff",
   "totalContributedSubTextColor": "#8b949e",
@@ -76,7 +81,11 @@ TAG_GEN=$(jq -r '.tagGen' "$USER_CONFIG_FILE")
 TAG_IMAGE=$(jq -r '.tagImage' "$USER_CONFIG_FILE")
 BACKGROUND_IMAGE=$(jq -r '.backgroundImage' "$USER_CONFIG_FILE")
 FLAME_COLOR=$(jq -r '.flameColor' "$USER_CONFIG_FILE")
+FLAME_BLUR=$(jq -r '.flameBlur' "$USER_CONFIG_FILE")
+FLAME_BLUR_FORCE=$(jq -r '.flameBlurForce' "$USER_CONFIG_FILE")
 RING_COLOR=$(jq -r '.ringColor' "$USER_CONFIG_FILE")
+RING_BLUR=$(jq -r '.ringBlur' "$USER_CONFIG_FILE")
+RING_BLUR_FORCE=$(jq -r '.ringBlurForce' "$USER_CONFIG_FILE")
 ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
 DIVIDER="#30363d"
@@ -97,7 +106,7 @@ SUB_Y=145   # Date
 MY_FONT=$(convert -list font | grep -oE "Arial|Liberation-Sans|DejaVu-Sans" | head -n 1)
 [ -z "$MY_FONT" ] && MY_FONT="fixed"
 
-OUTPUT_DIR="badges"
+OUTPUT_DIR="${USERNAME}/badges"
 OUTPUT="${OUTPUT_DIR}/${USERNAME}_badge.png"
 mkdir -p "$OUTPUT_DIR"
 
@@ -151,21 +160,46 @@ CMD+=(
     -fill "$TOTAL_CONTRIBUTED_COLOR" -pointsize 52 -annotate -284+$VAL_Y "$TOTAL_CONTRIBUTED"
     -fill "$TOTAL_CONTRIBUTED_TEXT_COLOR" -pointsize 18 -annotate -284+$LBL_Y "Total Contributions"
     -fill "$TOTAL_CONTRIBUTED_SUB_TEXT_COLOR" -pointsize 14 -annotate -284+$SUB_Y "$START_DATE - Present"
+    )
 
     # Column 2: The Ring
-    -fill none -stroke "$RING_COLOR" -strokewidth 5
-    -draw "arc 330,30 520,220 0,360"
-    
+    if [[ "$RING_BLUR" == "true" ]]; then
+    CMD+=( "(" 
+        -size "${WIDTH}x${HEIGHT}" xc:none 
+        -fill none -stroke "$RING_COLOR" -strokewidth 5
+        -draw "arc 330,30 520,220 0,360"
+        -blur $RING_BLUR_FORCE
+    ")" 
+    -composite)
+    else
+    CMD+=(
+        -fill none -stroke "$RING_COLOR" -strokewidth 5
+        -draw "arc 330,30 520,220 0,360")
+    fi
+    CMD+=(
     # --- FLAME ICON ---
-    # 1. Mask
+    # 1. Mask (Hides the ring behind the flame - STAYS ON MAIN LAYER)
     -fill "$BG_COLOR" -stroke "$BG_COLOR" -strokewidth 8
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
+    )
     
-    # 2. Outer Flame
-    -fill "$FLAME_COLOR" -stroke none
-    -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
-    
-    # 3. Inner Flame (Hollow Effect)
+    # 2. Outer Flame (ISOLATED LAYER for Blur)
+    # We create a new transparent canvas, draw the flame, blur it, then composite it back.
+    if [[ "$FLAME_BLUR" == "true" ]]; then
+    CMD+=( "(" 
+        -size "${WIDTH}x${HEIGHT}" xc:none 
+        -fill "$FLAME_COLOR" -stroke none 
+        -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'" 
+        -blur $FLAME_BLUR_FORCE
+    ")" 
+    -composite)
+    else
+    CMD+=(
+        -fill "$FLAME_COLOR" -stroke none 
+        -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'" )
+    fi
+    CMD+=(    
+    # 3. Inner Flame (Hollow Effect - SHARP)
     -fill "$BG_COLOR" -stroke none
     -draw "translate 422,28 rotate 13 translate -422,-28 path 'M 422,37 C 414,37 414,25 417,20 Q 423,28 429,13 C 434,22 435,37 422,37 Z'"
     

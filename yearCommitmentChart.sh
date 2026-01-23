@@ -1,8 +1,8 @@
 #!/bin/bash 
 USERNAME=$1
+DATA=$(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "${USERNAME}/streakData/${USERNAME}.json")
 
-
-cat >"${USERNAME}/statistics/${USERNAME}YearDominanceStandalone.html" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}YearCommitmentStandalone.html" <<EOL
 <!DOCTYPE html>
 <html lang="en" style="height: 100%">
 <head>
@@ -25,29 +25,39 @@ cat >"${USERNAME}/statistics/${USERNAME}YearDominanceStandalone.html" <<EOL
     var option;
 
     option = {
-  legend: {
-    top: 'bottom'
+  tooltip: {
+    trigger: 'item'
   },
-  toolbox: {
-    show: true,
-    feature: {
-      mark: { show: true },
-      dataView: { show: true, readOnly: false },
-      restore: { show: true },
-      saveAsImage: { show: true }
-    }
+  legend: {
+    top: '5%',
+    left: 'center'
   },
   series: [
     {
-      name: 'Nightingale Chart',
+      name: 'Access From',
       type: 'pie',
-      radius: [50, 250],
-      center: ['50%', '50%'],
-      roseType: 'area',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
       itemStyle: {
-        borderRadius: 8
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
       },
-    data: $(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "${USERNAME}/streakData/${USERNAME}.json")
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: $DATA
     }
   ]
 };

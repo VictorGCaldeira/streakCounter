@@ -5,12 +5,12 @@ CONTRIBUTION_COUNT=0
 AVG_CONTRIBUTION=0
 TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
 TODAY_YEAR=${TODAY:0:4}
-CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "contributions/${USERNAME}.json")
+CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "${USERNAME}/contributions/${USERNAME}.json")
 MAX_STREAK=0
 INDEX=0
 MAX_STREAK_DATE=null
 CURRENT_STREAK_DATE=null
-FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "contributions/${USERNAME}.json")
+FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "${USERNAME}/contributions/${USERNAME}.json")
 FIRST_CONTRIBUTION_YEAR=${FIRST_CONTRIBUTION_DATE:0:4}
 MAX_CONTRIBUTION=0
 
@@ -27,19 +27,19 @@ do
     fi 
     STREAK_COUNT=$(( STREAK_COUNT + 1 ))
     if [[ $STREAK_COUNT -eq 1 ]]; then
-      CURRENT_STREAK_DATE=$(cat "contributions/${USERNAME}.json" | jq -r '.['$INDEX'].date')
+      CURRENT_STREAK_DATE=$(cat "${USERNAME}/contributions/${USERNAME}.json" | jq -r '.['$INDEX'].date')
     fi
     CONTRIBUTION_COUNT=$(( CONTRIBUTION_COUNT + CONTRIBUTION_COUNT ))
     if [[ $STREAK_COUNT -gt $MAX_STREAK ]]; then
       MAX_STREAK=$STREAK_COUNT
-      MAX_STREAK_DATE=$(cat "contributions/${USERNAME}.json" | jq -r '.['$(( $INDEX - $MAX_STREAK))'].date')
+      MAX_STREAK_DATE=$(cat "${USERNAME}/contributions/${USERNAME}.json" | jq -r '.['$(( $INDEX - $MAX_STREAK))'].date')
     fi
   else
-    CURRENT_STREAK_DATE=$(cat "contributions/${USERNAME}.json" | jq -r '.['$INDEX'].date')
+    CURRENT_STREAK_DATE=$(cat "${USERNAME}/contributions/${USERNAME}.json" | jq -r '.['$INDEX'].date')
     STREAK_COUNT=0
   fi
   INDEX=$(( $INDEX + 1 ))
-done < <(jq -c '.[] | select(.date < "'$TODAY'")' "contributions/${USERNAME}.json")
+done < <(jq -c '.[] | select(.date < "'$TODAY'")' "${USERNAME}/contributions/${USERNAME}.json")
 if [[ $CONTRIBUTION_DAYS_COUNT -gt 0 ]]; then
   AVG_CONTRIBUTION=$((CONTRIBUTION_COUNT / $CONTRIBUTION_DAYS_COUNT ))
 fi
@@ -60,8 +60,8 @@ do
     CONTRIBUTION_PER_YEAR+="},"
   fi
 done
-mkdir -p streakData
-cat >"streakData/${USERNAME}.json" <<EOL
+mkdir -p "${USERNAME}/streakData"
+cat >"${USERNAME}/streakData/${USERNAME}.json" <<EOL
 {
   "username": "$USERNAME",
   "streakCount": "$STREAK_COUNT",

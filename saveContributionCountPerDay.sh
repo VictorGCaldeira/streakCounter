@@ -12,10 +12,10 @@ ACCOUNT_CREATED_AT=$(echo $EVENTS | jq -r '.data.user.createdAt')
 ACCOUNT_CREATED_AT_YEAR=${ACCOUNT_CREATED_AT:0:4}
 USER_DATA=$(echo $EVENTS | jq '.data')
 RUN_YEAR=$ACCOUNT_CREATED_AT_YEAR
-mkdir -p contributions
-mkdir -p data
-echo "[]" > "contributions/${USERNAME}.json"
-echo $USER_DATA > "data/${USERNAME}.json"
+mkdir -p "${USERNAME}/contributions"
+mkdir -p "${USERNAME}/data"
+echo "[]" > "${USERNAME}/contributions/${USERNAME}.json"
+echo $USER_DATA > "${USERNAME}/data/${USERNAME}.json"
 if [[ $ACCOUNT_CREATED_AT_YEAR -gt 1900 ]]; then
     for i in $(seq $ACCOUNT_CREATED_AT_YEAR $TODAY_YEAR)
     do
@@ -27,7 +27,7 @@ if [[ $ACCOUNT_CREATED_AT_YEAR -gt 1900 ]]; then
         }')
         NEW_DAYS=$(echo $RESPONSE | jq '[.data.user.contributionsCollection.contributionCalendar.weeks[].contributionDays[]] | .[:-1]')
         RUN_YEAR=$((RUN_YEAR + 1))
-        jq -n --slurpfile old "contributions/${USERNAME}.json" --argjson new "$NEW_DAYS" '($old | add) + $new' > "temp.json" && mv "temp.json" "contributions/${USERNAME}.json"
+        jq -n --slurpfile old "${USERNAME}/contributions/${USERNAME}.json" --argjson new "$NEW_DAYS" '($old | add) + $new' > "temp.json" && mv "temp.json" "${USERNAME}/contributions/${USERNAME}.json"
     done
 else
 echo account $USERNAME does not exists on github

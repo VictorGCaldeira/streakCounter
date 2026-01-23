@@ -1,0 +1,31 @@
+name: Generate year commitment chart
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    environment: main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate year commitment chart
+        shell: bash
+        run: |
+            while read -r user; 
+            do 
+              bash yearCommitmentChart.sh $user
+            done < <(jq -r '.users[]' "config/run.json")
+            
+      - name: Upload to git
+        id: uploadGit
+        shell: bash
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name "juancolchete"
+            git config --global user.email "juancolchete@gmail.com"
+            git add . 
+            git commit -m "upload: $LAST_COMMIT_MSG"
+            git push
+          else
+            echo "no changes to push"
+          fi

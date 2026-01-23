@@ -2,15 +2,15 @@
 USERNAME=$1
 TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
 
-CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "contributions/${USERNAME}.json")
+CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "${USERNAME}/contributions/${USERNAME}.json")
 MAX_CONTRIBUTION=0
 WEEK_DAY=0
 WEEK_COUNT=0
 GLOBAL_WEEK_COUNT=0
-FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "contributions/${USERNAME}.json")
+FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "${USERNAME}/contributions/${USERNAME}.json")
 FIRST_CONTRIBUTION_YEAR=${FIRST_CONTRIBUTION_DATE:0:4}
 CURRENT_CONTRIBUTION_YEAR=$FIRST_CONTRIBUTION_YEAR
-mkdir -p statistics
+mkdir -p "${USERNAME}/statistics"
 DAY_COMMITMENT_DATA+="["
 WEEK_NUMBER+="["
 while read -r contribution; 
@@ -35,11 +35,11 @@ do
   fi
   WEEK_DAY=$(( $WEEK_DAY + 1 ))
   INDEX=$(( $INDEX + 1 ))
-done < <(jq -c '.[] | select(.date < "'$TODAY'")' "contributions/${USERNAME}.json")
+done < <(jq -c '.[] | select(.date < "'$TODAY'")' "${USERNAME}/contributions/${USERNAME}.json")
 DAY_COMMITMENT_DATA+="]"
 WEEK_NUMBER+="]"
 mkdir -p streakData
-cat >"statistics/${USERNAME}.json" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}.json" <<EOL
 {
   "maxContribution": "$MAX_CONTRIBUTION",
   "contributionDaysCount": "$CONTRIBUTION_DAYS_COUNT",
@@ -48,20 +48,30 @@ cat >"statistics/${USERNAME}.json" <<EOL
 }
 EOL
 
-cat >"statistics/${USERNAME}Data.js" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}Data.js" <<EOL
 const maxContribution=$MAX_CONTRIBUTION
 const contributionDaysCount=$CONTRIBUTION_DAYS_COUNT
 const dayCommitmentData=$DAY_COMMITMENT_DATA
 const weekNumber=$WEEK_NUMBER
 EOL
 
-cat >"statistics/${USERNAME}.html" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}.html" <<EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>$USERNAME - Skyscraper</title>
-  <link rel="stylesheet" href="./style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #chart-container {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
   <div id="chart-container"></div>
@@ -73,7 +83,7 @@ cat >"statistics/${USERNAME}.html" <<EOL
 </html>
 EOL
 
-cat >"statistics/${USERNAME}Skyscraper.js" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}Skyscraper.js" <<EOL
 var dom = document.getElementById('chart-container');
 var myChart = echarts.init(dom, null, {
   renderer: 'canvas',
@@ -174,21 +184,31 @@ if (option && typeof option === 'object') {
 window.addEventListener('resize', myChart.resize);
 EOL
 
-cat >"statistics/${USERNAME}Standalone.html" <<EOL
+cat >"${USERNAME}/statistics/${USERNAME}Standalone.html" <<EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>$USERNAME - Skyscraper</title>
-  <link rel="stylesheet" href="./style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #chart-container {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
   <div id="chart-container"></div>
   <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
   <script src="https://echarts.apache.org/en/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
   <script>
-    $(cat "statistics/${USERNAME}Data.js") 
-    $(cat "statistics/${USERNAME}Skyscraper.js") 
+    $(cat "${USERNAME}/statistics/${USERNAME}Data.js") 
+    $(cat "${USERNAME}/statistics/${USERNAME}Skyscraper.js") 
   </script>
 </body>
 </html>
