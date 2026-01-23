@@ -15,7 +15,7 @@ RUN_YEAR=$ACCOUNT_CREATED_AT_YEAR
 mkdir -p "${USERNAME}/contributions"
 mkdir -p data
 echo "[]" > "${USERNAME}/contributions/${USERNAME}.json"
-echo $USER_DATA > "data/${USERNAME}.json"
+echo $USER_DATA > "${USERNAME}/data/${USERNAME}.json"
 if [[ $ACCOUNT_CREATED_AT_YEAR -gt 1900 ]]; then
     for i in $(seq $ACCOUNT_CREATED_AT_YEAR $TODAY_YEAR)
     do
