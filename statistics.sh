@@ -17,7 +17,7 @@ do
   fi 
   DAY_COMMITMENT_DATA+='['$WEEK_DAY','$WEEK_COUNT','$CONTRIBUTION_COUNT'],'
   WEEK_NUMBER+='"'$WEEK_COUNT' '$CONTRIBUTION_YEAR'",'
-  if [[ WEEK_DAY -ge 6 ]];
+  if [[ WEEK_DAY -ge 6 ]]; then
     WEEK_DAY=0
     WEEK_COUNT=$(( $WEEK_COUNT + 1 ))
   fi
