@@ -24,6 +24,7 @@ if [ ! -f "$USER_FILE" ] || [ ! -f "$STREAK_FILE" ]; then
     exit 1
 fi
 mkdir -p "${USERNAME}/images"
+touch "${USERNAME}/images/.keep"
 # Create Config if missing
 if [ ! -f "$USER_CONFIG_FILE" ]; then
     mkdir -p "${USERNAME}/config"
