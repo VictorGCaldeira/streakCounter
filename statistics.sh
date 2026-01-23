@@ -6,6 +6,7 @@ CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "c
 MAX_CONTRIBUTION=0
 WEEK_DAY=0
 WEEK_COUNT=0
+GLOBAL_WEEK_COUNT=0
 FIRST_CONTRIBUTION_DATE=$(jq -r '.[0].date' "contributions/${USERNAME}.json")
 FIRST_CONTRIBUTION_YEAR=${FIRST_CONTRIBUTION_DATE:0:4}
 CURRENT_CONTRIBUTION_YEAR=$FIRST_CONTRIBUTION_YEAR
@@ -29,6 +30,7 @@ do
     fi
     WEEK_COUNT=$(( $WEEK_COUNT + 1 ))
     WEEK_NUMBER+=''$WEEK_COUNT','
+    GLOBAL_WEEK_COUNT=$(( $GLOBAL_WEEK_COUNT + 1 ))
     # WEEK_NUMBER+='"'$WEEK_COUNT' '$CONTRIBUTION_YEAR'",'
   fi
   WEEK_DAY=$(( $WEEK_DAY + 1 ))
@@ -123,7 +125,7 @@ option = {
     type: 'value'
   },
   grid3D: {
-    boxWidth: 3000,
+    boxWidth: $(( GLOBAL_WEEK_COUNT * 20)),
     boxDepth: 80,
     light: {
       main: {
