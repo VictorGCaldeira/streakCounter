@@ -3,9 +3,6 @@ USERNAME=$1
 DATA=$(jq '.contributionPerYear | map({name: .year, value: .totalContributed})' "streakData/${USERNAME}.json")
 
 cat >"statistics/${USERNAME}YearCommitmentStandalone.html" <<EOL
-<!--
-	THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/en/editor.html?c=pie-borderRadius
--->
 <!DOCTYPE html>
 <html lang="en" style="height: 100%">
 <head>
