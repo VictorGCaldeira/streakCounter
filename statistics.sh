@@ -1,5 +1,7 @@
 #!/bin/bash 
 USERNAME=$1
+TODAY=$(date -u +"%Y-%m-%d" -d "-3 hours")
+
 CONTRIBUTION_DAYS_COUNT=$(jq -r '[.[] | select(.date < "'$TODAY'")] | length' "contributions/${USERNAME}.json")
 MAX_CONTRIBUTION=0
 WEEK_DAY=0
