@@ -77,8 +77,8 @@ cat >"${USERNAME}/statistics/${USERNAME}.html" <<EOL
   <div id="chart-container"></div>
   <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
   <script src="https://echarts.apache.org/en/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
-  <script src="${USERNAME}/statistics/${USERNAME}Data.js"></script>
-  <script src="${USERNAME}/statistics/${USERNAME}Skyscraper.js"></script>
+  <script src="./${USERNAME}Data.js"></script>
+  <script src="./${USERNAME}Skyscraper.js"></script>
 </body>
 </html>
 EOL
