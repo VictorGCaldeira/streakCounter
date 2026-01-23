@@ -9,6 +9,7 @@ DAY_COMMITMENT_DATA+="["
 WEEK_NUMBER+="["
 while read -r contribution; 
 do 
+  echo here
   CONTRIBUTION_COUNT=$(echo $contribution | jq -r ".contributionCount")
   CONTRIBUTION_DATE=$(echo $contribution | jq -r ".date")
   CONTRIBUTION_YEAR=${CONTRIBUTION_DATE:0:4}
