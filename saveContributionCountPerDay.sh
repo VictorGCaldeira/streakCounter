@@ -13,7 +13,7 @@ ACCOUNT_CREATED_AT_YEAR=${ACCOUNT_CREATED_AT:0:4}
 USER_DATA=$(echo $EVENTS | jq '.data')
 RUN_YEAR=$ACCOUNT_CREATED_AT_YEAR
 mkdir -p "${USERNAME}/contributions"
-mkdir -p data
+mkdir -p "${USERNAME}/data"
 echo "[]" > "${USERNAME}/contributions/${USERNAME}.json"
 echo $USER_DATA > "${USERNAME}/data/${USERNAME}.json"
 if [[ $ACCOUNT_CREATED_AT_YEAR -gt 1900 ]]; then
