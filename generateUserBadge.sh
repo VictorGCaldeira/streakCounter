@@ -157,15 +157,21 @@ CMD+=(
     -draw "arc 330,30 520,220 0,360"
     
     # --- FLAME ICON ---
-    # 1. Mask
+    # 1. Mask (Hides the ring behind the flame - STAYS ON MAIN LAYER)
     -fill "$BG_COLOR" -stroke "$BG_COLOR" -strokewidth 8
     -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
     
-    # 2. Outer Flame
-    -blur 0x8 -fill "$FLAME_COLOR" -stroke none
-    -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'"
+    # 2. Outer Flame (ISOLATED LAYER for Blur)
+    # We create a new transparent canvas, draw the flame, blur it, then composite it back.
+    "(" 
+        -size "${WIDTH}x${HEIGHT}" xc:none 
+        -fill "$FLAME_COLOR" -stroke none 
+        -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'" 
+        -blur 0x8 
+    ")" 
+    -composite
     
-    # 3. Inner Flame (Hollow Effect)
+    # 3. Inner Flame (Hollow Effect - SHARP)
     -fill "$BG_COLOR" -stroke none
     -draw "translate 422,28 rotate 13 translate -422,-28 path 'M 422,37 C 414,37 414,25 417,20 Q 423,28 429,13 C 434,22 435,37 422,37 Z'"
     
