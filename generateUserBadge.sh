@@ -38,6 +38,7 @@ if [ ! -f "$USER_CONFIG_FILE" ]; then
   "backgroundImage": "",
   "flameColor":"#ff9a00",
   "flameBlur": false,
+  "flameBlurForce": "0x2",
   "ringColor":"#ff9a00",
   "totalContributedColor": "#ffffff",
   "totalContributedTextColor": "#ffffff",
@@ -78,6 +79,7 @@ TAG_IMAGE=$(jq -r '.tagImage' "$USER_CONFIG_FILE")
 BACKGROUND_IMAGE=$(jq -r '.backgroundImage' "$USER_CONFIG_FILE")
 FLAME_COLOR=$(jq -r '.flameColor' "$USER_CONFIG_FILE")
 FLAME_BLUR=$(jq -r '.flameBlur' "$USER_CONFIG_FILE")
+FLAME_BLUR_FORCE=$(jq -r '.flameBlurForce' "$USER_CONFIG_FILE")
 RING_COLOR=$(jq -r '.ringColor' "$USER_CONFIG_FILE")
 ORANGE="#ff9a00"
 SUB_TEXT="#8b949e"
@@ -171,7 +173,7 @@ CMD+=(
         -size "${WIDTH}x${HEIGHT}" xc:none 
         -fill "$FLAME_COLOR" -stroke none 
         -draw "path 'M 425,42 C 405,42 402,20 414,12 Q 424,25 434,0 C 445,12 445,42 425,42 Z'" 
-        -blur 0x2 
+        -blur $FLAME_BLUR_FORCE
     ")" 
     -composite)
     else
