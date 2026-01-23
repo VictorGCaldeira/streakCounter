@@ -44,3 +44,10 @@ cat >"statistics/${USERNAME}.json" <<EOL
   "weekNumber": $WEEK_NUMBER
 }
 EOL
+
+cat >"statistics/${USERNAME}.js" <<EOL
+maxContribution=$MAX_CONTRIBUTION
+contributionDaysCount=$CONTRIBUTION_DAYS_COUNT
+dayCommitmentData=$DAY_COMMITMENT_DATA
+weekNumber=$WEEK_NUMBER
+EOL
