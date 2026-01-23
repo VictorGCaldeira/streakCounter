@@ -207,8 +207,8 @@ cat >"${USERNAME}/statistics/${USERNAME}Standalone.html" <<EOL
   <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
   <script src="https://echarts.apache.org/en/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
   <script>
-    $(cat "./${USERNAME}Data.js") 
-    $(cat "./${USERNAME}Skyscraper.js") 
+    $(cat "${USERNAME}/statistics/${USERNAME}Data.js") 
+    $(cat "${USERNAME}/statistics/${USERNAME}Skyscraper.js") 
   </script>
 </body>
 </html>
