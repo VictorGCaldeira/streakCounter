@@ -1,11 +1,11 @@
 {
   "username": "VictorGCaldeira",
-  "streakCount": "0",
-  "contributionCount": "0",
-  "maxContribution": "1",
+  "streakCount": "1",
+  "contributionCount": "8",
+  "maxContribution": "4",
   "avgContribution": "0",
   "maxStreak": "1",
   "maxStreakDate": "2022-08-04",
   "currentStreakDate": "2026-01-22",
-  "contributionPerYear": [{"year":"2022","totalContributed":"1","avg":"0"},{"year":"2023","totalContributed":"0","avg":"0"},{"year":"2024","totalContributed":"0","avg":"0"},{"year":"2025","totalContributed":"2","avg":"0"},{"year":"2026","totalContributed":"0","avg":"0"}]
+  "contributionPerYear": [{"year":"2022","totalContributed":"1","avg":"0"},{"year":"2023","totalContributed":"0","avg":"0"},{"year":"2024","totalContributed":"0","avg":"0"},{"year":"2025","totalContributed":"0","avg":"0"},{"year":"2026","totalContributed":"4","avg":"0"}]
 }
